@@ -3947,3 +3947,185 @@ button{font-family:inherit}
     bottom: 115px !important;
   }
 }
+/* =====================================================
+   ATHR HERO — DESKTOP FIX
+   إصلاح اللابتوب فقط بدون التأثير على الجوال
+===================================================== */
+
+@media (min-width: 769px) {
+
+    .athr-hero {
+        position: relative !important;
+        width: 100% !important;
+        height: 650px !important;
+        min-height: 650px !important;
+        overflow: hidden !important;
+        background: #5d1010 !important;
+    }
+
+    .athr-hero-bg {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1 !important;
+    }
+
+    .athr-hero-bg picture {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .athr-hero-bg img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center center !important;
+        transform: none !important;
+    }
+
+    .athr-hero-overlay {
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 2 !important;
+
+        background: linear-gradient(
+            to left,
+            rgba(91, 12, 12, 0.92) 0%,
+            rgba(91, 12, 12, 0.76) 20%,
+            rgba(91, 12, 12, 0.48) 38%,
+            rgba(91, 12, 12, 0.18) 58%,
+            rgba(91, 12, 12, 0) 78%
+        ) !important;
+    }
+
+    .athr-hero-container {
+        position: relative !important;
+        z-index: 3 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .athr-hero-content {
+        position: absolute !important;
+        top: 43% !important;
+        right: 4% !important;
+        left: auto !important;
+
+        width: 43% !important;
+        max-width: 570px !important;
+        height: auto !important;
+
+        padding: 0 !important;
+
+        display: block !important;
+
+        transform: translateY(-50%) !important;
+
+        text-align: right !important;
+        color: #ffffff !important;
+    }
+
+    .athr-hero-content h1 {
+        width: auto !important;
+        max-width: none !important;
+
+        margin: 0 0 22px !important;
+
+        font-size: clamp(42px, 4.2vw, 68px) !important;
+        line-height: 1.35 !important;
+        font-weight: 800 !important;
+
+        text-align: right !important;
+    }
+
+    .athr-hero-content p {
+        width: auto !important;
+        max-width: 570px !important;
+
+        margin: 0 0 28px !important;
+
+        font-size: clamp(16px, 1.35vw, 21px) !important;
+        line-height: 1.9 !important;
+        font-weight: 400 !important;
+
+        text-align: right !important;
+    }
+
+    .athr-hero-button {
+        position: static !important;
+
+        width: auto !important;
+        min-width: 210px !important;
+        height: 58px !important;
+
+        margin: 0 !important;
+
+        padding: 0 28px !important;
+
+        border-radius: 12px !important;
+
+        font-size: 17px !important;
+        transform: none !important;
+    }
+
+    .athr-hero-features {
+        position: static !important;
+
+        width: 100% !important;
+
+        margin-top: 32px !important;
+        padding: 0 !important;
+
+        display: flex !important;
+
+        justify-content: flex-start !important;
+        align-items: center !important;
+
+        direction: rtl !important;
+    }
+
+    .athr-feature {
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        gap: 12px !important;
+
+        flex: none !important;
+        min-width: auto !important;
+
+        text-align: right !important;
+    }
+
+    .athr-feature-icon {
+        width: 48px !important;
+        height: 48px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .athr-feature-icon svg {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    .athr-feature-text {
+        font-size: 14px !important;
+        line-height: 1.7 !important;
+        text-align: right !important;
+    }
+
+    .athr-feature-divider {
+        width: 1px !important;
+        height: 45px !important;
+        margin: 0 28px !important;
+    }
+}
