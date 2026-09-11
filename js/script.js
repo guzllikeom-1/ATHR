@@ -21,8 +21,31 @@ function setupHeader(){
   const mobileCat=document.getElementById("mobileCategoriesToggle"), mobileCats=document.getElementById("mobileCategories");
   if(mobileCat&&mobileCats) mobileCat.onclick=()=>{mobileCats.classList.toggle("open");mobileCat.classList.toggle("open")};
   document.addEventListener("click",e=>{if(dropdown&&!e.target.closest(".nav-dropdown-wrap"))dropdown.classList.remove("show")});
-  const searchBtn=document.getElementById("searchBtn"), panel=document.getElementById("searchPanel"), closeSearch=document.getElementById("closeSearch"), input=document.getElementById("searchInput");
-  if(searchBtn&&panel){searchBtn.onclick=async()=>{panel.classList.add("show");setTimeout(()=>input?.focus(),50);await loadSearchProducts()};}
+ const searchBtn = document.getElementById("searchBtn");
+const mobileSearchBtn = document.getElementById("mobileSearchBtn");
+const panel = document.getElementById("searchPanel");
+const closeSearch = document.getElementById("closeSearch");
+const input = document.getElementById("searchInput");
+
+const openSearch = async () => {
+  if (!panel) return;
+
+  panel.classList.add("show");
+
+  setTimeout(() => {
+    input?.focus();
+  }, 50);
+
+  await loadSearchProducts();
+};
+
+if (searchBtn && panel) {
+  searchBtn.onclick = openSearch;
+}
+
+if (mobileSearchBtn && panel) {
+  mobileSearchBtn.onclick = openSearch;
+}
   if(closeSearch&&panel) closeSearch.onclick=()=>{panel.classList.remove("show");if(input)input.value="";const r=document.getElementById("searchResults");if(r)r.innerHTML=""};
   if(input) input.addEventListener("input",()=>renderSearchResults(input.value));
   document.addEventListener("keydown",e=>{if(e.key==="Escape"){menu?.classList.remove("active");panel?.classList.remove("show");dropdown?.classList.remove("show");document.body.style.overflow=""}});
