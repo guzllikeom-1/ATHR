@@ -3579,13 +3579,13 @@ button{font-family:inherit}
     width: 100% !important;
     height: 100% !important;
 
-    object-fit: cover !important;
+    object-fit:  contain !important;
 
     /*
       نقل الصورة قليلًا لليسار
       حتى تظهر المنتجات بشكل أرتب
     */
-    object-position: 30% center !important;
+    object-position: center center !important;
   }
 
 
