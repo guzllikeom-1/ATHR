@@ -3190,3 +3190,361 @@ button{font-family:inherit}
 .athr-footer-social{background:#F7EFE6;color:#4a4240;padding:0;direction:rtl}.footer-social-inner{width:min(900px,92%);margin:0 auto;text-align:center;padding-top:62px}.footer-social-inner .athr-social-kicker{margin-bottom:8px}.footer-social-inner h2{font-family:var(--title-font);font-size:38px;color:#5E0D0D;margin:0 0 12px}.footer-social-inner p{font-size:15px;color:#6d6662;line-height:1.9;margin:0 auto 25px}.footer-social-buttons{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;padding-bottom:42px}.footer-social-buttons a{min-width:190px;height:58px;padding:0 24px;border-radius:30px;background:#fff;border:1px solid rgba(94,13,13,.09);display:inline-flex;align-items:center;justify-content:center;gap:12px;color:#4a4240;font-weight:700;box-shadow:0 8px 24px rgba(45,25,20,.05);transition:.25s ease}.footer-social-buttons a:hover{transform:translateY(-3px);color:#8B1717}.footer-social-buttons svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.athr-footer-social .footer-bottom{border-top:1px solid rgba(94,13,13,.10);padding:17px 15px 20px;color:#786e69;font-size:12px}
 @media(max-width:700px){.shop-category-intro{margin:0 15px 25px;padding:18px 16px}.shop-category-intro h2{font-size:18px}.shop-category-intro p{font-size:13px}.footer-social-inner{padding-top:50px}.footer-social-inner h2{font-size:31px}.footer-social-inner p{font-size:13px;padding:0 8px}.footer-social-buttons{gap:10px;padding-bottom:32px}.footer-social-buttons a{width:min(250px,90%);min-width:0;height:54px}}
 
+/* =====================================================
+   ATHR - MOBILE ONLY
+   لا يؤثر على الكمبيوتر
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* =========================
+     SEARCH ICON
+  ========================= */
+
+  .mobile-search-btn {
+    display: flex !important;
+
+    position: absolute;
+    left: 62px;
+    top: 16px;
+
+    width: 40px;
+    height: 40px;
+
+    padding: 0;
+    margin: 0;
+
+    border: 0;
+    background: transparent;
+
+    color: #ffffff;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 20;
+  }
+
+  .mobile-search-btn svg {
+    width: 26px;
+    height: 26px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+
+    stroke-linecap: round;
+  }
+
+
+  /* =========================
+     HERO
+  ========================= */
+
+  .athr-hero {
+    height: 680px !important;
+    min-height: 680px !important;
+
+    position: relative;
+    overflow: hidden;
+
+    background: #5e0d0d;
+  }
+
+
+  /* =========================
+     HERO IMAGE
+  ========================= */
+
+  .athr-hero-bg {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    z-index: 1;
+  }
+
+  .athr-hero-bg img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    /*
+      نركز الصورة على المنتجات
+      ونترك مساحة مناسبة للكلام يمين
+    */
+    object-position: 42% center;
+  }
+
+
+  /* =========================
+     BURGUNDY — فقط جهة اليمين
+  ========================= */
+
+  .athr-hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    background: linear-gradient(
+      to left,
+      rgba(94, 13, 13, 0.96) 0%,
+      rgba(94, 13, 13, 0.88) 20%,
+      rgba(94, 13, 13, 0.58) 36%,
+      rgba(94, 13, 13, 0.20) 52%,
+      rgba(94, 13, 13, 0.00) 68%
+    ) !important;
+  }
+
+
+  /* =========================
+     HERO CONTENT
+  ========================= */
+
+  .athr-hero-container {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 3;
+  }
+
+  .athr-hero-content {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 70px 22px 24px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    justify-content: flex-start;
+
+    text-align: right;
+
+    transform: none;
+  }
+
+
+  /* =========================
+     TITLE
+  ========================= */
+
+  .athr-hero-content h1 {
+    width: 100%;
+    max-width: 255px;
+
+    margin: 0 0 16px;
+
+    font-size: 31px !important;
+
+    line-height: 1.45 !important;
+
+    font-weight: 800;
+
+    text-align: right;
+  }
+
+
+  /* =========================
+     DESCRIPTION
+  ========================= */
+
+  .athr-hero-content p {
+    width: 100%;
+    max-width: 255px;
+
+    margin: 0 0 20px;
+
+    font-size: 13px !important;
+
+    line-height: 1.9 !important;
+
+    text-align: right;
+  }
+
+
+  /* =========================
+     SHOP BUTTON
+  ========================= */
+
+  .athr-hero-button {
+    width: 185px !important;
+    min-width: 185px !important;
+
+    height: 50px !important;
+
+    padding: 0 18px;
+
+    border-radius: 12px;
+
+    font-size: 15px !important;
+
+    gap: 12px;
+  }
+
+
+  .athr-arrow {
+    font-size: 20px;
+  }
+
+
+  /* =========================
+     FEATURES
+  ========================= */
+
+  .athr-hero-features {
+    width: 100%;
+
+    margin-top: auto;
+
+    padding-top: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+  }
+
+
+  .athr-feature {
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    text-align: center;
+  }
+
+
+  /* =========================
+     CATEGORIES
+     2 PER ROW
+  ========================= */
+
+  .athr-categories-grid {
+    display: grid !important;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 28px 18px !important;
+
+    width: 100%;
+
+    overflow: visible !important;
+
+    padding: 0 10px 30px !important;
+
+    box-sizing: border-box;
+  }
+
+
+  .athr-category-card {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    flex: none !important;
+
+    text-align: center;
+  }
+
+
+  .athr-category-image {
+    width: 145px !important;
+    height: 145px !important;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+  }
+
+
+  .athr-category-card h3 {
+    margin-top: 10px !important;
+
+    font-size: 15px !important;
+
+    line-height: 1.5 !important;
+
+    text-align: center;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 430px) {
+
+  .athr-hero {
+    height: 660px !important;
+    min-height: 660px !important;
+  }
+
+  .athr-hero-content {
+    padding: 62px 18px 20px;
+  }
+
+  .athr-hero-content h1 {
+    max-width: 245px;
+
+    font-size: 29px !important;
+  }
+
+  .athr-hero-content p {
+    max-width: 245px;
+
+    font-size: 12px !important;
+  }
+
+  .athr-hero-button {
+    width: 175px !important;
+    min-width: 175px !important;
+
+    height: 48px !important;
+
+    font-size: 14px !important;
+  }
+
+  .athr-category-image {
+    width: 135px !important;
+    height: 135px !important;
+  }
+
+  .athr-category-card h3 {
+    font-size: 14px !important;
+  }
+
+}
