@@ -3780,3 +3780,169 @@ button{font-family:inherit}
     height: 135px !important;
   }
 }
+/* =========================================
+   ATHR MOBILE HERO - FINAL
+========================================= */
+
+@media (max-width: 768px) {
+
+  .athr-hero {
+    position: relative !important;
+    height: 680px !important;
+    min-height: 680px !important;
+    overflow: hidden !important;
+  }
+
+  /* صورة الجوال */
+  .athr-hero-bg {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .athr-hero-bg picture {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .athr-hero-bg picture img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  /* العنابي من جهة اليمين */
+  .athr-hero-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+
+    background: linear-gradient(
+      to left,
+      rgba(94, 13, 13, 0.96) 0%,
+      rgba(94, 13, 13, 0.82) 20%,
+      rgba(94, 13, 13, 0.50) 38%,
+      rgba(94, 13, 13, 0.18) 55%,
+      rgba(94, 13, 13, 0) 72%
+    ) !important;
+  }
+
+  /* محتوى الهيرو */
+  .athr-hero-content {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding: 70px 22px 28px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+
+    text-align: right !important;
+  }
+
+  /* العنوان أعلى اليمين */
+  .athr-hero-content h1 {
+    width: 100% !important;
+    max-width: 280px !important;
+
+    margin: 0 0 12px auto !important;
+
+    font-size: 31px !important;
+    line-height: 1.45 !important;
+
+    text-align: right !important;
+  }
+
+  /* الوصف */
+  .athr-hero-content p {
+    width: 100% !important;
+    max-width: 275px !important;
+
+    margin: 0 0 0 auto !important;
+
+    font-size: 13px !important;
+    line-height: 1.9 !important;
+
+    text-align: right !important;
+  }
+
+  /* زر تسوق الآن في المنتصف تحت الصورة */
+  .athr-hero-button {
+    position: absolute !important;
+
+    left: 50% !important;
+    bottom: 115px !important;
+
+    transform: translateX(-50%) !important;
+
+    width: 190px !important;
+    min-width: 190px !important;
+    height: 52px !important;
+
+    margin: 0 !important;
+
+    border-radius: 13px !important;
+
+    font-size: 16px !important;
+  }
+
+  /* المميزات */
+  .athr-hero-features {
+    position: absolute !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 20px !important;
+
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}
+
+
+/* الجوالات الصغيرة */
+@media (max-width: 430px) {
+
+  .athr-hero {
+    height: 680px !important;
+    min-height: 680px !important;
+  }
+
+  .athr-hero-content {
+    padding-top: 65px !important;
+    padding-right: 18px !important;
+    padding-left: 18px !important;
+  }
+
+  .athr-hero-content h1 {
+    max-width: 260px !important;
+    font-size: 29px !important;
+  }
+
+  .athr-hero-content p {
+    max-width: 255px !important;
+    font-size: 12.5px !important;
+  }
+
+  .athr-hero-button {
+    width: 185px !important;
+    min-width: 185px !important;
+    bottom: 115px !important;
+  }
+}
