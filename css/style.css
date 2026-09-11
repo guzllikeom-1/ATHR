@@ -3807,14 +3807,13 @@ button{font-family:inherit}
     height: 100% !important;
   }
 
-  .athr-hero-bg picture img{
-    display: block !important;
+  .athr-hero-bg img{
     width: 100% !important;
-    height: 92% !important;
+    height: 100% !important;
+    display: block !important;
     object-fit: cover !important;
     object-position: center center !important;
-    transform: scale(0.92) !important;
-    transform-origin: center center !important;
+    transform: none !important;
 }
 
   /* العنابي من جهة اليمين */
@@ -3947,34 +3946,4 @@ button{font-family:inherit}
     min-width: 185px !important;
     bottom: 115px !important;
   }
-}
-/* =========================================
-   ATHR DESKTOP HERO FIX
-========================================= */
-
-@media (min-width: 769px){
-
-  .athr-hero-bg{
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden !important;
-  }
-
-  .athr-hero-bg picture{
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-  .athr-hero-bg picture img{
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    transform: none !important;
-  }
-
 }
