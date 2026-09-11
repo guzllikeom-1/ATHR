@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="جميع المنتجات | أثر"><title>جميع المنتجات | أثر</title>
+<link rel="icon" href="images/logo2.Jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body data-page="shop"><header class="main-header">
+  <div class="header-container">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة"><span></span><span></span><span></span></button>
+    <nav class="desktop-nav right-nav">
+      <a data-nav="home" href="index.html">الرئيسية</a>
+      <a data-nav="shop" href="shop.html">المتجر</a>
+      <div class="nav-dropdown-wrap">
+        <button class="nav-dropdown-btn" id="categoriesToggle" type="button">الأقسام <span class="small-arrow">⌄</span></button>
+        <div class="categories-dropdown" id="categoriesDropdown"><a href="shop.html?category=clubs">أكواب الأندية</a><a href="shop.html?category=university">أكواب الجامعات</a><a href="shop.html?category=girls">أكواب البنات</a><a href="shop.html?category=quotes">أكواب العبارات</a><a href="shop.html?category=redbull">Red Bull المضيئة</a><a href="shop.html?category=stanley">Stanley</a><a href="shop.html?category=mugs">المجات</a><a href="shop.html?category=coffee">أدوات القهوة</a><a href="shop.html?category=wallets">المحافظ</a><a href="shop.html?category=makeup-bags">حقائب المكياج</a></div>
+      </div>
+    </nav>
+    <a href="index.html" class="logo"><img src="images/logo.png" alt="أثر"></a>
+    <nav class="desktop-nav left-nav">
+      <a data-nav="contact" href="contact.html">تواصل معنا</a>
+      <button class="search-btn" id="searchBtn" aria-label="البحث"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg></button>
+      <a href="cart.html" class="cart-btn" aria-label="السلة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 13H7L6 8Z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><span class="cart-count">0</span></a>
+    </nav>
+    <a href="cart.html" class="mobile-cart" aria-label="السلة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 13H7L6 8Z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><span class="cart-count">0</span></a>
+  </div>
+  <div class="search-panel" id="searchPanel">
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" placeholder="ابحث عن منتج..." autocomplete="off">
+      <button id="closeSearch" aria-label="إغلاق البحث">×</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</header>
+<aside class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-top"><span>القائمة</span><button id="closeMenu" aria-label="إغلاق القائمة">×</button></div>
+  <nav class="mobile-navigation">
+    <a data-nav="home" href="index.html">الرئيسية</a>
+    <a data-nav="shop" href="shop.html">المتجر</a>
+    <button class="mobile-categories-toggle" id="mobileCategoriesToggle" type="button">الأقسام <span>⌄</span></button>
+    <div class="mobile-categories" id="mobileCategories"><a href="shop.html?category=clubs">أكواب الأندية</a><a href="shop.html?category=university">أكواب الجامعات</a><a href="shop.html?category=girls">أكواب البنات</a><a href="shop.html?category=quotes">أكواب العبارات</a><a href="shop.html?category=redbull">Red Bull المضيئة</a><a href="shop.html?category=stanley">Stanley</a><a href="shop.html?category=mugs">المجات</a><a href="shop.html?category=coffee">أدوات القهوة</a><a href="shop.html?category=wallets">المحافظ</a><a href="shop.html?category=makeup-bags">حقائب المكياج</a></div>
+    <a data-nav="contact" href="contact.html">تواصل معنا</a>
+  </nav>
+  <div class="mobile-social"><p>تابع أثر 🤍</p><div class="mobile-social-links"><a href="https://www.instagram.com/a3r_om?igsh=d2p0dnNycjh5endu" target="_blank" rel="noopener">Instagram</a><span>•</span><a href="https://www.tiktok.com/@a3r_om?_r=1&_t=ZS-99cef9Gbp9U" target="_blank" rel="noopener">TikTok</a></div></div>
+</aside><main><section class="page-hero"><span class="eyebrow">ATHR SHOP</span><h1>جميع المنتجات</h1><p>تصفح تشكيلتنا واختر ما يناسبك من منتجات أثر.</p></section><section class="shop-main"><div class="internal-container"><div class="shop-toolbar"><div id="shopFilters" class="filter-row"></div><select id="shopSort" class="sort-select" aria-label="ترتيب المنتجات"><option value="new">الأحدث</option><option value="price-asc">السعر: الأقل للأعلى</option><option value="price-desc">السعر: الأعلى للأقل</option><option value="best">الأكثر مبيعًا</option></select></div><div id="shopCategoryIntro" class="shop-category-intro"></div><div id="shopProductsGrid" class="page-products-grid"><div class="shop-state">جاري تحميل المنتجات...</div></div></div></section></main><footer class="athr-footer athr-footer-social"><div class="footer-social-inner"><span class="athr-social-kicker">ATHR SOCIAL</span><h2>تابعنا..</h2><p>تابعنا على Instagram وTikTok لمعرفة كل جديد والعروض القادمة 🤍</p><div class="footer-social-buttons"><a href="https://www.instagram.com/a3r_om?igsh=d2p0dnNycjh5endu" target="_blank" rel="noopener" aria-label="Instagram"><span>Instagram</span><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.7" r="1"></circle></svg></a><a href="https://www.tiktok.com/@a3r_om?_r=1&_t=ZS-99cef9Gbp9U" target="_blank" rel="noopener" aria-label="TikTok"><span>TikTok</span>
+<svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M19.59 6.69a4.83 4.83 0 0 1-4.38-2.55v8.7a5.16 5.16 0 1 1-4.46-5.1v2.8a2.43 2.43 0 1 0 1.75 2.33V3h2.71a4.84 4.84 0 0 0 4.38 3.69v2.7Z"/>
+</svg></a>
+</div><div class="footer-bottom">جميع الحقوق محفوظة © <span id="footerYear"></span> متجر أثر</div></div></footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase-config.js"></script><script src="js/script.js"></script></body></html>

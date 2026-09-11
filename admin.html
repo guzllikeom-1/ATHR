@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم أثر</title>
+    <link rel="icon" href="images/logo2.Jpeg">
+    <link rel="stylesheet" href="admin/css/admin.css">
+</head>
+<body>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+
+    <!-- LOGIN -->
+    <section id="loginView" class="login-view">
+        <div class="login-card">
+            <div class="login-brand">
+                <img src="images/logo.png" alt="أثر">
+            </div>
+            <span class="login-kicker">ATHR STORE</span>
+            <h1>لوحة تحكم أثر</h1>
+            <p>سجّل الدخول لإدارة المنتجات والمتجر.</p>
+
+            <form id="loginForm" class="form-grid">
+                <label>
+                    البريد الإلكتروني
+                    <input id="loginEmail" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
+                </label>
+                <label>
+                    كلمة المرور
+                    <input id="loginPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور" required>
+                </label>
+                <button class="primary-btn full" type="submit" id="loginBtn">دخول</button>
+                <p id="loginError" class="form-error"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <div id="dashboardView" class="dashboard hidden">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="images/logo.png" alt="أثر">
+                <div>
+                    <strong>أثر</strong>
+                    <small>ATHR STORE</small>
+                </div>
+            </div>
+
+            <nav>
+                <button class="side-link active" data-section="productsSection">🛍️ المنتجات</button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="index.html" target="_blank" class="store-link">↗ فتح المتجر</a>
+                <button id="logoutBtn" class="logout-btn">تسجيل الخروج</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div>
+                    <span class="eyebrow">ATHR STORE</span>
+                    <h1>إدارة المنتجات</h1>
+                    <p>أضف منتجاتك وعدّلها، وستظهر تلقائيًا في المتجر.</p>
+                </div>
+                <button id="addProductTopBtn" class="primary-btn">＋ إضافة منتج</button>
+            </header>
+
+            <section class="stats-grid">
+                <div class="stat-card"><span>إجمالي المنتجات</span><strong id="totalCount">0</strong></div>
+                <div class="stat-card"><span>⭐ الأكثر مبيعًا</span><strong id="bestCount">0</strong></div>
+                <div class="stat-card"><span>🆕 وصل حديثًا</span><strong id="newCount">0</strong></div>
+            </section>
+
+            <section id="productsSection" class="content-card">
+                <div class="section-toolbar">
+                    <div>
+                        <h2>المنتجات</h2>
+                        <p>كل منتج تضيفه هنا يُحفظ في قاعدة البيانات.</p>
+                    </div>
+                    <div class="toolbar-actions">
+                        <input id="productSearch" type="search" placeholder="ابحث عن منتج...">
+                        <select id="categoryFilter">
+                            <option value="all">كل الأقسام</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="productsLoading" class="state-box">جاري تحميل المنتجات...</div>
+                <div id="productsEmpty" class="state-box hidden">لا توجد منتجات حتى الآن.</div>
+                <div id="productsTableWrap" class="table-wrap hidden">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المنتج</th>
+                                <th>القسم</th>
+                                <th>السعر</th>
+                                <th>الظهور</th>
+                                <th>تاريخ الإضافة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div id="productModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-card">
+            <button class="modal-close" type="button" data-close-modal aria-label="إغلاق">×</button>
+            <div class="modal-heading">
+                <span class="eyebrow">ATHR PRODUCT</span>
+                <h2 id="modalTitle">إضافة منتج</h2>
+                <p>املأ البيانات واحفظ المنتج ليظهر في المتجر.</p>
+            </div>
+
+            <form id="productForm" class="product-form">
+                <input type="hidden" id="productId">
+                <input type="hidden" id="oldImageUrl">
+
+                <div class="image-upload">
+                    <div id="imagePreview" class="image-preview">
+                        <span>صورة المنتج</span>
+                    </div>
+                    <div class="upload-controls">
+                        <label class="upload-btn" for="productImage">📷 اختيار صورة</label>
+                        <input id="productImage" type="file" accept="image/*">
+                        <small>JPG / PNG / WEBP — يفضّل صورة واضحة للمنتج.</small>
+                    </div>
+                </div>
+
+                <div class="form-two-cols">
+                    <label>
+                        اسم المنتج
+                        <input id="productName" type="text" placeholder="مثال: كوب نادي السيب" required>
+                    </label>
+                    <label>
+                        السعر (ر.ع)
+                        <input id="productPrice" type="number" min="0" step="0.001" placeholder="3.500" required>
+                    </label>
+                </div>
+
+                <label>
+                    القسم
+                    <select id="productCategory" required>
+                        <option value="">اختر القسم</option>
+                    </select>
+                </label>
+
+                <div class="checks">
+                    <label class="check-card">
+                        <input id="isBestSeller" type="checkbox">
+                        <span><b>⭐ الأكثر مبيعًا</b><small>يظهر في قسم الأكثر مبيعًا.</small></span>
+                    </label>
+                    <label class="check-card">
+                        <input id="isNewArrival" type="checkbox">
+                        <span><b>🆕 وصل حديثًا</b><small>يظهر في قسم وصل حديثًا.</small></span>
+                    </label>
+                </div>
+
+                <div id="formMessage" class="form-message"></div>
+
+                <div class="modal-actions">
+                    <button type="button" class="secondary-btn" data-close-modal>إلغاء</button>
+                    <button type="submit" class="primary-btn" id="saveProductBtn">حفظ المنتج</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="admin/js/admin.js"></script>
+</body>
+</html>
