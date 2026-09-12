@@ -4184,21 +4184,18 @@ button{font-family:inherit}
     }
 }
 /* =====================================================
-   ATHR HERO — DESKTOP FINAL ARRANGEMENT
-   اللابتوب فقط
-===================================================== */
+   ATHR HERO — LAPTOP FINAL POSITION
+   ===================================================== */
 
 @media (min-width: 769px) {
 
-    /* مساحة محتوى الهيرو */
     .athr-hero-clean-content {
         box-sizing: border-box !important;
 
-        width: min(1400px, 100%) !important;
         height: 100% !important;
 
-        padding-right: 4.5% !important;
-        padding-left: 4.5% !important;
+        padding-right: 5% !important;
+        padding-left: 5% !important;
 
         display: flex !important;
         flex-direction: column !important;
@@ -4215,11 +4212,11 @@ button{font-family:inherit}
         width: 100% !important;
         max-width: 560px !important;
 
-        margin: 0 0 18px !important;
+        margin: 0 0 14px !important;
 
         text-align: right !important;
 
-        font-size: clamp(42px, 4vw, 64px) !important;
+        font-size: clamp(40px, 4vw, 62px) !important;
         line-height: 1.35 !important;
     }
 
@@ -4227,45 +4224,54 @@ button{font-family:inherit}
     /* الوصف */
     .athr-hero-clean-content p {
         width: 100% !important;
-        max-width: 500px !important;
+        max-width: 510px !important;
 
-        margin: 0 0 25px !important;
+        margin: 0 0 22px !important;
 
         text-align: right !important;
 
-        font-size: clamp(16px, 1.25vw, 20px) !important;
+        font-size: 18px !important;
         line-height: 1.9 !important;
     }
 
 
-    /* زر تسوق الآن */
+    /* =========================
+       زر تسوق الآن
+       ========================= */
+
     .athr-hero-clean-button {
+        position: static !important;
+
         width: 210px !important;
         height: 58px !important;
 
-        margin: 0 0 28px !important;
+        margin: 0 0 22px !important;
         padding: 0 !important;
 
-        display: inline-flex !important;
+        align-self: flex-end !important;
+
+        display: flex !important;
 
         align-items: center !important;
         justify-content: center !important;
 
-        gap: 14px !important;
+        gap: 12px !important;
 
-        align-self: flex-end !important;
+        box-sizing: border-box !important;
 
         border-radius: 12px !important;
 
         font-size: 16px !important;
-        font-weight: 700 !important;
-
-        box-sizing: border-box !important;
     }
 
 
-    /* المميزات */
+    /* =========================
+       المميزات
+       ========================= */
+
     .athr-hero-clean-features {
+        position: static !important;
+
         width: auto !important;
 
         margin: 0 !important;
@@ -4278,7 +4284,7 @@ button{font-family:inherit}
         align-items: center !important;
         justify-content: flex-end !important;
 
-        gap: 26px !important;
+        gap: 24px !important;
 
         align-self: flex-end !important;
     }
@@ -4291,23 +4297,24 @@ button{font-family:inherit}
         flex-direction: row !important;
 
         align-items: center !important;
-        justify-content: center !important;
 
-        gap: 11px !important;
+        gap: 10px !important;
+
+        text-align: right !important;
 
         white-space: nowrap !important;
 
-        text-align: right !important;
+        color: #fff !important;
     }
 
 
-    /* الأيقونة */
+    /* الأيقونات */
     .athr-clean-icon {
-        width: 48px !important;
-        height: 48px !important;
+        width: 46px !important;
+        height: 46px !important;
 
-        min-width: 48px !important;
-        min-height: 48px !important;
+        min-width: 46px !important;
+        min-height: 46px !important;
 
         display: flex !important;
 
@@ -4319,20 +4326,25 @@ button{font-family:inherit}
 
 
     .athr-clean-icon svg {
-        width: 24px !important;
-        height: 24px !important;
+        width: 23px !important;
+        height: 23px !important;
+
+        max-width: 23px !important;
+        max-height: 23px !important;
     }
 
 
-    /* الخط بين المميزات */
+    /* الخط الفاصل */
     .athr-clean-divider {
         display: block !important;
 
         width: 1px !important;
-        height: 52px !important;
+        height: 48px !important;
 
-        margin: 0 2px !important;
+        flex-shrink: 0 !important;
 
-        background: rgba(255,255,255,.5) !important;
+        margin: 0 3px !important;
+
+        background: rgba(255,255,255,.55) !important;
     }
 }
