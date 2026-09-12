@@ -188,10 +188,26 @@ function updateAthrCartCount(){const count=getCart().reduce((s,x)=>s+Number(x.qu
 function showMiniToast(msg){let t=document.getElementById("athrToast");if(!t){t=document.createElement("div");t.id="athrToast";t.className="athr-mini-toast";document.body.appendChild(t)}t.textContent=msg;t.classList.add("show");clearTimeout(window._athrToast);window._athrToast=setTimeout(()=>t.classList.remove("show"),1800)}
 function escapeHtml(value){return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
 
-async function loadCartPage(){const box=document.getElementById("cartContent");if(!box)return;function render(){const cart=getCart();if(!cart.length){box.innerHTML='<div class="empty-cart">السلة فارغة حاليًا 🤍<br><a href="shop.html" class="primary-large" style="display:inline-flex;align-items:center;margin-top:18px">ابدأ التسوق</a></div>';return}const total=cart.reduce((s,x)=>s+Number(x.price)*Number(x.quantity),0);box.innerHTML=`<div class="cart-list">${cart.map(x=>`<div class="cart-item"><img src="${escapeHtml(x.image_url)}" alt="${escapeHtml(x.name)}"><div><h3>${escapeHtml(x.name)}</h3><p>${Number(x.price).toFixed(3)} ر.ع</p></div><div class="qty-control"><button data-minus="${escapeHtml(x.id)}">−</button><strong>${x.quantity}</strong><button data-plus="${escapeHtml(x.id)}">+</button></div><button class="remove-item" data-remove="${escapeHtml(x.id)}">حذف</button></div>`).join('')}</div><div class="cart-summary"><strong>الإجمالي: ${total.toFixed(3)} ر.ع</strong><a class="primary-large" target="_blank" rel="noopener" 
-const whatsappMessage = `✨طلب جديد من متجر أثر OM✨
+async function loadCartPage(){
+  const box=document.getElementById("cartContent");
+  if(!box)return;
 
-${cart.map(x => `🛍️ ${x.name} - ${(Number(x.price) * Number(x.quantity)).toFixed(3)} ر.ع`).join('\n')}
+  function render(){
+    const cart=getCart();
+
+    if(!cart.length){
+      box.innerHTML='<div class="empty-cart">السلة فارغة حاليًا 🤍<br><a href="shop.html" class="primary-large" style="display:inline-flex;align-items:center;margin-top:18px">ابدأ التسوق</a></div>';
+      return;
+    }
+
+    const total=cart.reduce(
+      (s,x)=>s+Number(x.price)*Number(x.quantity),
+      0
+    );
+
+    const whatsappMessage=`✨طلب جديد من متجر أثر OM✨
+
+${cart.map(x=>`🛍️ ${x.name} - ${(Number(x.price)*Number(x.quantity)).toFixed(3)} ر.ع`).join('\n')}
 
 
 ━━━━━━━━━━━━━━━━━━
@@ -203,5 +219,76 @@ ${cart.map(x => `🛍️ ${x.name} - ${(Number(x.price) * Number(x.quantity)).to
 📱 رقم التحويل: 77336242
 
 📸 بعد التحويل يرجى إرسال إيصال التحويل لإكمال الطلب. شكرًا لتسوقكم من متجر أثر♥️🪄.`;
-href="https://wa.me/96877336242?text=${encodeURIComponent(whatsappMessage)}"
->إتمام الطلب عبر واتساب</a></div>`;box.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));box.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));box.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{saveCart(getCart().filter(x=>x.id!==b.dataset.remove));render()})}function changeQty(id,d){const c=getCart();const x=c.find(i=>i.id===id);if(!x)return;x.quantity+=d;if(x.quantity<=0){saveCart(c.filter(i=>i.id!==id))}else saveCart(c);render()}render()}
+
+    box.innerHTML=`
+      <div class="cart-list">
+        ${cart.map(x=>`
+          <div class="cart-item">
+            <img src="${escapeHtml(x.image_url)}" alt="${escapeHtml(x.name)}">
+            <div>
+              <h3>${escapeHtml(x.name)}</h3>
+              <p>${Number(x.price).toFixed(3)} ر.ع</p>
+            </div>
+
+            <div class="qty-control">
+              <button data-minus="${escapeHtml(x.id)}">−</button>
+              <strong>${x.quantity}</strong>
+              <button data-plus="${escapeHtml(x.id)}">+</button>
+            </div>
+
+            <button class="remove-item" data-remove="${escapeHtml(x.id)}">
+              حذف
+            </button>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="cart-summary">
+        <strong>الإجمالي: ${total.toFixed(3)} ر.ع</strong>
+
+        <a
+          class="primary-large"
+          target="_blank"
+          rel="noopener"
+          href="https://wa.me/96877336242?text=${encodeURIComponent(whatsappMessage)}"
+        >
+          إتمام الطلب عبر واتساب
+        </a>
+      </div>
+    `;
+
+    box.querySelectorAll('[data-minus]').forEach(
+      b=>b.onclick=()=>changeQty(b.dataset.minus,-1)
+    );
+
+    box.querySelectorAll('[data-plus]').forEach(
+      b=>b.onclick=()=>changeQty(b.dataset.plus,1)
+    );
+
+    box.querySelectorAll('[data-remove]').forEach(
+      b=>b.onclick=()=>{
+        saveCart(getCart().filter(x=>x.id!==b.dataset.remove));
+        render();
+      }
+    );
+  }
+
+  function changeQty(id,d){
+    const c=getCart();
+    const x=c.find(i=>i.id===id);
+
+    if(!x)return;
+
+    x.quantity+=d;
+
+    if(x.quantity<=0){
+      saveCart(c.filter(i=>i.id!==id));
+    }else{
+      saveCart(c);
+    }
+
+    render();
+  }
+
+  render();
+}
