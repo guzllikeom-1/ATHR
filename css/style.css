@@ -3987,45 +3987,137 @@ button{font-family:inherit}
     }
 
 
-    /* 8 — الزر */
-    .athr-hero-button {
-        position: static !important;
+/* 8 — الزر */
+.athr-hero-button {
+    position: static !important;
 
-        display: inline-flex !important;
+    display: flex !important;
 
-        width: auto !important;
-        min-width: 210px !important;
-        height: 58px !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-        margin: 0 !important;
-        padding: 0 28px !important;
+    width: 210px !important;
+    min-width: 210px !important;
+    height: 58px !important;
 
-        transform: none !important;
+    margin: 0 0 32px auto !important;
+    padding: 0 !important;
 
-        background: #fff !important;
-        color: #641111 !important;
+    box-sizing: border-box !important;
 
-        border-radius: 12px !important;
-    }
+    transform: none !important;
+
+    background: #fff !important;
+    color: #641111 !important;
+
+    border-radius: 12px !important;
+
+    line-height: 1 !important;
+    text-align: center !important;
+
+    gap: 8px !important;
+}
 
 
-    /* 9 — المميزات */
-    .athr-hero-features {
-        position: static !important;
+/* النص داخل الزر */
+.athr-hero-button > span {
+    display: inline-flex !important;
 
-        width: 100% !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-        margin-top: 32px !important;
-        padding: 0 !important;
+    position: static !important;
 
-        display: flex !important;
+    margin: 0 !important;
+    padding: 0 !important;
 
-        align-items: center !important;
-        justify-content: flex-start !important;
+    transform: none !important;
 
-        background: transparent !important;
-    }
+    line-height: 1.2 !important;
+}
 
+
+  /* 9 — المميزات */
+.athr-hero-features {
+    position: static !important;
+
+    width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    direction: rtl !important;
+
+    background: transparent !important;
+}
+
+
+/* كل ميزة */
+.athr-feature {
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-direction: row !important;
+
+    gap: 12px !important;
+
+    background: transparent !important;
+
+    flex: 0 0 auto !important;
+}
+
+
+/* الأيقونة */
+.athr-feature-icon {
+    width: 42px !important;
+    height: 42px !important;
+
+    flex: 0 0 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.athr-feature-icon svg {
+    width: 27px !important;
+    height: 27px !important;
+}
+
+
+/* النص */
+.athr-feature-text {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+
+    text-align: right !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* الخط الفاصل */
+.athr-feature-divider {
+    display: block !important;
+
+    width: 1px !important;
+    min-width: 1px !important;
+
+    height: 55px !important;
+
+    margin: 0 28px !important;
+
+    background: rgba(255,255,255,0.7) !important;
+
+    flex: 0 0 1px !important;
+}
 
     .athr-feature {
         display: flex !important;
@@ -4181,174 +4273,5 @@ button{font-family:inherit}
         height: 24px !important;
         max-width: 24px !important;
         max-height: 24px !important;
-    }
-}
-/* =====================================================
-   ATHR HERO — FINAL DESKTOP OVERRIDE
-   ===================================================== */
-
-@media (min-width: 769px) {
-
-    /* =========================
-       BUTTON
-       ========================= */
-
-    .athr-hero-clean-button {
-        position: relative !important;
-
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        width: 210px !important;
-        height: 58px !important;
-
-        margin: 0 0 30px auto !important;
-        padding: 0 !important;
-
-        box-sizing: border-box !important;
-
-        line-height: normal !important;
-        text-align: center !important;
-
-        gap: 7px !important;
-    }
-
-    /* نلغي أي positioning قديم للنص */
-    .athr-hero-clean-button span,
-    .athr-hero-clean-button span:first-child,
-    .athr-hero-clean-button span:last-child {
-        position: static !important;
-
-        display: inline-flex !important;
-
-        width: auto !important;
-        height: auto !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        transform: none !important;
-
-        inset: auto !important;
-
-        line-height: 1.2 !important;
-
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    /* =========================
-       FEATURES
-       ========================= */
-
-    .athr-hero-clean-features {
-        position: relative !important;
-
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        width: 100% !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        gap: 28px !important;
-
-        box-sizing: border-box !important;
-    }
-
-    .athr-clean-feature {
-        position: relative !important;
-
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        gap: 12px !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        min-width: 150px !important;
-        min-height: 55px !important;
-    }
-
-    /* الأيقونة */
-    .athr-clean-icon {
-        position: static !important;
-
-        width: 42px !important;
-        height: 42px !important;
-
-        min-width: 42px !important;
-        min-height: 42px !important;
-
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .athr-clean-icon svg {
-        width: 27px !important;
-        height: 27px !important;
-
-        min-width: 27px !important;
-        min-height: 27px !important;
-
-        max-width: 27px !important;
-        max-height: 27px !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* النص */
-    .athr-clean-feature strong {
-        position: static !important;
-
-        display: block !important;
-
-        width: auto !important;
-        height: auto !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        transform: none !important;
-        inset: auto !important;
-
-        text-align: right !important;
-        line-height: 1.6 !important;
-    }
-
-    /* =========================
-       الخط الفاصل
-       ========================= */
-
-    .athr-clean-divider {
-        display: block !important;
-
-        width: 1px !important;
-        min-width: 1px !important;
-        max-width: 1px !important;
-
-        height: 58px !important;
-        min-height: 58px !important;
-
-        margin: 0 8px !important;
-        padding: 0 !important;
-
-        background: rgba(255,255,255,0.75) !important;
-
-        opacity: 1 !important;
-
-        visibility: visible !important;
-
-        flex: 0 0 1px !important;
     }
 }
