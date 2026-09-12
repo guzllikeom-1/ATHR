@@ -1,0 +1,312 @@
+/* =====================================================
+   ATHR DESKTOP CLEAN FIX
+   ===================================================== */
+
+@media (min-width: 901px) {
+
+    /* ===== HEADER ===== */
+
+    .main-header {
+        position: relative !important;
+        width: 100% !important;
+        height: 88px !important;
+        background: #8B1717 !important;
+        z-index: 9999 !important;
+    }
+
+    .header-container {
+        width: min(1320px, 92%) !important;
+        height: 88px !important;
+        margin: 0 auto !important;
+
+        display: grid !important;
+        grid-template-columns: 1fr 125px 1fr !important;
+        align-items: center !important;
+
+        position: relative !important;
+    }
+
+    .desktop-nav {
+        display: flex !important;
+        align-items: center !important;
+        gap: 32px !important;
+        height: 88px !important;
+    }
+
+    .right-nav {
+        justify-content: flex-start !important;
+    }
+
+    .left-nav {
+        justify-content: flex-end !important;
+    }
+
+    .desktop-nav a,
+    .nav-dropdown-btn {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+
+        width: auto !important;
+        height: auto !important;
+
+        color: #fff !important;
+        font-size: 13px !important;
+
+        transform: none !important;
+        margin: 0 !important;
+    }
+
+    /* اللوجو */
+    .main-header .logo {
+        position: relative !important;
+
+        width: 125px !important;
+        height: 88px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        overflow: hidden !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .main-header .logo img {
+        position: relative !important;
+
+        display: block !important;
+
+        width: 96px !important;
+        height: 70px !important;
+
+        max-width: 96px !important;
+        max-height: 70px !important;
+
+        object-fit: contain !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        transform: none !important;
+    }
+
+
+    /* ===== HERO ===== */
+
+    .athr-hero {
+        position: relative !important;
+
+        width: 100% !important;
+        height: 650px !important;
+        min-height: 650px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        overflow: hidden !important;
+
+        background: #5E0D0D !important;
+    }
+
+
+    .athr-hero-bg {
+        position: absolute !important;
+
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        display: block !important;
+
+        z-index: 1 !important;
+
+        overflow: hidden !important;
+    }
+
+
+    .athr-hero-bg picture {
+        position: absolute !important;
+
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        display: block !important;
+    }
+
+
+    .athr-hero-bg img {
+        position: absolute !important;
+
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        max-width: none !important;
+        max-height: none !important;
+
+        display: block !important;
+
+        object-fit: cover !important;
+        object-position: center center !important;
+
+        transform: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+
+    /* ===== OVERLAY ===== */
+
+    .athr-hero-overlay {
+        position: absolute !important;
+
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        display: block !important;
+
+        z-index: 2 !important;
+
+        background:
+            linear-gradient(
+                to left,
+                rgba(91,12,12,.92) 0%,
+                rgba(91,12,12,.76) 20%,
+                rgba(91,12,12,.48) 38%,
+                rgba(91,12,12,.18) 58%,
+                rgba(91,12,12,0) 78%
+            ) !important;
+    }
+
+
+    /* ===== HERO CONTENT ===== */
+
+    .athr-hero-container {
+        position: relative !important;
+
+        width: 100% !important;
+        height: 650px !important;
+
+        max-width: 1400px !important;
+
+        margin: 0 auto !important;
+        padding: 0 !important;
+
+        z-index: 10 !important;
+    }
+
+
+    .athr-hero-content {
+        position: absolute !important;
+
+        top: 43% !important;
+        right: 4% !important;
+        left: auto !important;
+
+        width: 43% !important;
+        max-width: 570px !important;
+
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+
+        transform: translateY(-50%) !important;
+
+        background: transparent !important;
+
+        text-align: right !important;
+
+        color: #fff !important;
+    }
+
+
+    .athr-hero-content h1 {
+        margin: 0 0 22px !important;
+
+        color: #fff !important;
+
+        font-size: clamp(42px,4.2vw,68px) !important;
+        line-height: 1.35 !important;
+
+        background: transparent !important;
+    }
+
+
+    .athr-hero-content p {
+        margin: 0 0 28px !important;
+
+        color: #fff !important;
+
+        font-size: clamp(16px,1.35vw,21px) !important;
+        line-height: 1.9 !important;
+
+        background: transparent !important;
+    }
+
+
+    .athr-hero-button {
+        position: static !important;
+
+        display: inline-flex !important;
+
+        width: auto !important;
+        min-width: 210px !important;
+        height: 58px !important;
+
+        margin: 0 !important;
+
+        background: #fff !important;
+        color: #641111 !important;
+
+        transform: none !important;
+    }
+
+
+    .athr-hero-features {
+        position: static !important;
+
+        width: 100% !important;
+
+        margin-top: 32px !important;
+        padding: 0 !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: flex-start !important;
+    }
+
+
+    /* ===== IMPORTANT ===== */
+
+    /* لا تسمح لأي صورة أخرى داخل الهيرو أن تكبر */
+    .athr-hero img:not(.athr-hero-bg img) {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
