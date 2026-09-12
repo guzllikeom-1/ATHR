@@ -4184,18 +4184,31 @@ button{font-family:inherit}
     }
 }
 /* =====================================================
-   ATHR HERO — LAPTOP FINAL POSITION
-   ===================================================== */
+   ATHR HERO — DESKTOP EXACT LAYOUT
+   اللابتوب فقط
+===================================================== */
 
 @media (min-width: 769px) {
 
+    /* =========================================
+       منطقة المحتوى كاملة
+    ========================================= */
+
     .athr-hero-clean-content {
-        box-sizing: border-box !important;
+        position: absolute !important;
 
-        height: 100% !important;
+        top: 50% !important;
+        right: 4.5% !important;
+        left: auto !important;
 
-        padding-right: 5% !important;
-        padding-left: 5% !important;
+        width: 43% !important;
+        max-width: 570px !important;
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        transform: translateY(-50%) !important;
 
         display: flex !important;
         flex-direction: column !important;
@@ -4204,53 +4217,79 @@ button{font-family:inherit}
         justify-content: center !important;
 
         text-align: right !important;
+
+        direction: rtl !important;
+
+        color: #FFFFFF !important;
     }
 
 
-    /* العنوان */
+    /* =========================================
+       العنوان
+    ========================================= */
+
     .athr-hero-clean-content h1 {
         width: 100% !important;
         max-width: 560px !important;
 
-        margin: 0 0 14px !important;
+        margin: 0 0 18px !important;
+        padding: 0 !important;
+
+        font-family: "Noto Kufi Arabic", sans-serif !important;
+
+        font-size: clamp(42px, 4vw, 64px) !important;
+        font-weight: 700 !important;
+
+        line-height: 1.38 !important;
 
         text-align: right !important;
 
-        font-size: clamp(40px, 4vw, 62px) !important;
-        line-height: 1.35 !important;
+        color: #FFFFFF !important;
     }
 
 
-    /* الوصف */
+    /* =========================================
+       الوصف
+    ========================================= */
+
     .athr-hero-clean-content p {
         width: 100% !important;
-        max-width: 510px !important;
+        max-width: 520px !important;
 
-        margin: 0 0 22px !important;
+        margin: 0 0 27px !important;
+        padding: 0 !important;
+
+        font-family: "Tajawal", sans-serif !important;
+
+        font-size: clamp(16px, 1.25vw, 20px) !important;
+        font-weight: 400 !important;
+
+        line-height: 1.9 !important;
 
         text-align: right !important;
 
-        font-size: 18px !important;
-        line-height: 1.9 !important;
+        color: #FFFFFF !important;
     }
 
 
-    /* =========================
+    /* =========================================
        زر تسوق الآن
-       ========================= */
+    ========================================= */
 
     .athr-hero-clean-button {
         position: static !important;
 
         width: 210px !important;
+        min-width: 210px !important;
+
         height: 58px !important;
 
-        margin: 0 0 22px !important;
-        padding: 0 !important;
+        margin: 0 0 30px !important;
+        padding: 0 25px !important;
 
         align-self: flex-end !important;
 
-        display: flex !important;
+        display: inline-flex !important;
 
         align-items: center !important;
         justify-content: center !important;
@@ -4259,20 +4298,38 @@ button{font-family:inherit}
 
         box-sizing: border-box !important;
 
+        border: none !important;
         border-radius: 12px !important;
 
-        font-size: 16px !important;
+        background: #FFFFFF !important;
+        color: #641111 !important;
+
+        font-family: "Tajawal", sans-serif !important;
+        font-size: 17px !important;
+        font-weight: 700 !important;
+
+        text-decoration: none !important;
+
+        box-shadow: none !important;
+
+        transform: none !important;
     }
 
 
-    /* =========================
+    .athr-hero-clean-button:hover {
+        transform: translateY(-2px) !important;
+    }
+
+
+    /* =========================================
        المميزات
-       ========================= */
+    ========================================= */
 
     .athr-hero-clean-features {
         position: static !important;
 
         width: auto !important;
+        height: auto !important;
 
         margin: 0 !important;
         padding: 0 !important;
@@ -4287,64 +4344,123 @@ button{font-family:inherit}
         gap: 24px !important;
 
         align-self: flex-end !important;
+
+        direction: rtl !important;
     }
 
 
-    /* كل ميزة */
+    /* =========================================
+       كل ميزة
+    ========================================= */
+
     .athr-clean-feature {
+        width: auto !important;
+        height: 55px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
         display: flex !important;
 
         flex-direction: row !important;
 
         align-items: center !important;
+        justify-content: center !important;
 
-        gap: 10px !important;
+        gap: 11px !important;
+
+        color: #FFFFFF !important;
 
         text-align: right !important;
 
         white-space: nowrap !important;
-
-        color: #fff !important;
     }
 
 
-    /* الأيقونات */
-    .athr-clean-icon {
-        width: 46px !important;
-        height: 46px !important;
+    /* =========================================
+       نص الميزة
+    ========================================= */
 
-        min-width: 46px !important;
-        min-height: 46px !important;
+    .athr-clean-feature strong {
+        display: block !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        font-family: "Tajawal", sans-serif !important;
+
+        font-size: 14px !important;
+        font-weight: 600 !important;
+
+        line-height: 1.65 !important;
+
+        color: #FFFFFF !important;
+
+        text-align: right !important;
+    }
+
+
+    /* =========================================
+       دائرة الأيقونة
+    ========================================= */
+
+    .athr-clean-icon {
+        width: 48px !important;
+        height: 48px !important;
+
+        min-width: 48px !important;
+        min-height: 48px !important;
 
         display: flex !important;
 
         align-items: center !important;
         justify-content: center !important;
 
+        box-sizing: border-box !important;
+
+        border: 1px solid rgba(255,255,255,.65) !important;
+
         border-radius: 50% !important;
+
+        color: #FFFFFF !important;
     }
 
 
     .athr-clean-icon svg {
-        width: 23px !important;
-        height: 23px !important;
+        width: 24px !important;
+        height: 24px !important;
 
-        max-width: 23px !important;
-        max-height: 23px !important;
+        max-width: 24px !important;
+        max-height: 24px !important;
+
+        display: block !important;
+
+        fill: none !important;
+        stroke: currentColor !important;
+
+        stroke-width: 1.6 !important;
+
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
     }
 
 
-    /* الخط الفاصل */
+    /* =========================================
+       الخط الفاصل
+    ========================================= */
+
     .athr-clean-divider {
         display: block !important;
 
         width: 1px !important;
-        height: 48px !important;
+        height: 52px !important;
 
-        flex-shrink: 0 !important;
+        min-width: 1px !important;
 
-        margin: 0 3px !important;
+        margin: 0 2px !important;
+        padding: 0 !important;
 
-        background: rgba(255,255,255,.55) !important;
+        background: rgba(255,255,255,.50) !important;
     }
+
 }
