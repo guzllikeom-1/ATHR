@@ -4046,3 +4046,100 @@ button{font-family:inherit}
         display: none !important;
     }
 }
+/* =====================================================
+   ATHR — FIX GIANT HEADER LOGO
+   Desktop + Laptop
+===================================================== */
+
+@media (min-width: 769px) {
+
+    .main-header {
+        position: sticky !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: 88px !important;
+        z-index: 1000 !important;
+        background: #8B1717 !important;
+    }
+
+    .header-container {
+        width: min(1320px, 92%) !important;
+        height: 88px !important;
+        margin: 0 auto !important;
+
+        display: grid !important;
+        grid-template-columns: 1fr 125px 1fr !important;
+        align-items: center !important;
+    }
+
+    /* مكان اللوجو */
+    .main-header .logo {
+        width: 125px !important;
+        height: 88px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        overflow: hidden !important;
+        position: relative !important;
+    }
+
+    /* اللوجو نفسه */
+    .main-header .logo img {
+        display: block !important;
+
+        width: 96px !important;
+        height: 70px !important;
+
+        max-width: 96px !important;
+        max-height: 70px !important;
+
+        min-width: 0 !important;
+        min-height: 0 !important;
+
+        object-fit: contain !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        position: static !important;
+
+        transform: none !important;
+    }
+
+    /* الهيدر الأيمن */
+    .main-header .right-nav {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 32px !important;
+
+        height: 88px !important;
+    }
+
+    /* الهيدر الأيسر */
+    .main-header .left-nav {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 32px !important;
+
+        height: 88px !important;
+    }
+
+    .main-header .desktop-nav a,
+    .main-header .nav-dropdown-btn,
+    .main-header .search-btn,
+    .main-header .cart-btn {
+        position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+    }
+
+    /* نضمن أن الهيرو يبدأ بعد الهيدر */
+    .athr-hero {
+        margin-top: 0 !important;
+    }
+}
