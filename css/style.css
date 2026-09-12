@@ -4183,15 +4183,19 @@ button{font-family:inherit}
         max-height: 24px !important;
     }
 }
-/* =========================================
-   ATHR HERO — DESKTOP FINAL TOUCH
-   لا يؤثر على الجوال
-========================================= */
+/* =====================================================
+   ATHR HERO — FINAL DESKTOP OVERRIDE
+   ===================================================== */
 
 @media (min-width: 769px) {
 
-    /* زر تسوق الآن */
+    /* =========================
+       BUTTON
+       ========================= */
+
     .athr-hero-clean-button {
+        position: relative !important;
+
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -4199,108 +4203,151 @@ button{font-family:inherit}
         width: 210px !important;
         height: 58px !important;
 
-        padding: 0 !important;
         margin: 0 0 30px auto !important;
+        padding: 0 !important;
 
         box-sizing: border-box !important;
 
-        text-decoration: none !important;
-        line-height: 1 !important;
+        line-height: normal !important;
+        text-align: center !important;
 
-        gap: 8px !important;
+        gap: 7px !important;
     }
 
-    /* النص داخل الزر يكون في منتصف البوكس بالضبط */
-    .athr-hero-clean-button span {
+    /* نلغي أي positioning قديم للنص */
+    .athr-hero-clean-button span,
+    .athr-hero-clean-button span:first-child,
+    .athr-hero-clean-button span:last-child {
+        position: static !important;
+
         display: inline-flex !important;
+
+        width: auto !important;
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        transform: none !important;
+
+        inset: auto !important;
+
+        line-height: 1.2 !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* =========================
+       FEATURES
+       ========================= */
+
+    .athr-hero-clean-features {
+        position: relative !important;
+
+        display: flex !important;
         align-items: center !important;
         justify-content: center !important;
 
-        line-height: 1.2 !important;
+        width: 100% !important;
+
         margin: 0 !important;
         padding: 0 !important;
-        transform: none !important;
+
+        gap: 28px !important;
+
+        box-sizing: border-box !important;
     }
 
-
-    /* =========================================
-       مميزات الـ Hero
-    ========================================= */
-
-    .athr-hero-clean-features {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-
-        gap: 24px !important;
-
-        width: fit-content !important;
-        margin-right: 0 !important;
-        margin-left: auto !important;
-    }
-
-
-    /* كل ميزة */
     .athr-clean-feature {
+        position: relative !important;
+
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
 
         gap: 12px !important;
 
+        margin: 0 !important;
+        padding: 0 !important;
+
+        min-width: 150px !important;
         min-height: 55px !important;
     }
 
-
-    /* الأيقونات */
+    /* الأيقونة */
     .athr-clean-icon {
-        width: 48px !important;
-        height: 48px !important;
+        position: static !important;
+
+        width: 42px !important;
+        height: 42px !important;
+
+        min-width: 42px !important;
+        min-height: 42px !important;
 
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
 
-        flex: 0 0 48px !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .athr-clean-icon svg {
-        width: 28px !important;
-        height: 28px !important;
+        width: 27px !important;
+        height: 27px !important;
 
-        max-width: 28px !important;
-        max-height: 28px !important;
+        min-width: 27px !important;
+        min-height: 27px !important;
+
+        max-width: 27px !important;
+        max-height: 27px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
     }
-
 
     /* النص */
     .athr-clean-feature strong {
+        position: static !important;
+
         display: block !important;
+
+        width: auto !important;
+        height: auto !important;
 
         margin: 0 !important;
         padding: 0 !important;
 
-        line-height: 1.65 !important;
+        transform: none !important;
+        inset: auto !important;
+
         text-align: right !important;
+        line-height: 1.6 !important;
     }
 
-
-    /* =========================================
-       الخط الفاصل بين الميزتين
-    ========================================= */
+    /* =========================
+       الخط الفاصل
+       ========================= */
 
     .athr-clean-divider {
         display: block !important;
 
         width: 1px !important;
         min-width: 1px !important;
+        max-width: 1px !important;
 
-        height: 55px !important;
+        height: 58px !important;
+        min-height: 58px !important;
 
-        margin: 0 4px !important;
+        margin: 0 8px !important;
         padding: 0 !important;
 
-        background: rgba(255, 255, 255, 0.65) !important;
+        background: rgba(255,255,255,0.75) !important;
+
+        opacity: 1 !important;
+
+        visibility: visible !important;
 
         flex: 0 0 1px !important;
     }
