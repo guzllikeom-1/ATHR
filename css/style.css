@@ -4183,3 +4183,156 @@ button{font-family:inherit}
         max-height: 24px !important;
     }
 }
+/* =====================================================
+   ATHR HERO — DESKTOP FINAL ARRANGEMENT
+   اللابتوب فقط
+===================================================== */
+
+@media (min-width: 769px) {
+
+    /* مساحة محتوى الهيرو */
+    .athr-hero-clean-content {
+        box-sizing: border-box !important;
+
+        width: min(1400px, 100%) !important;
+        height: 100% !important;
+
+        padding-right: 4.5% !important;
+        padding-left: 4.5% !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+
+        align-items: flex-end !important;
+        justify-content: center !important;
+
+        text-align: right !important;
+    }
+
+
+    /* العنوان */
+    .athr-hero-clean-content h1 {
+        width: 100% !important;
+        max-width: 560px !important;
+
+        margin: 0 0 18px !important;
+
+        text-align: right !important;
+
+        font-size: clamp(42px, 4vw, 64px) !important;
+        line-height: 1.35 !important;
+    }
+
+
+    /* الوصف */
+    .athr-hero-clean-content p {
+        width: 100% !important;
+        max-width: 500px !important;
+
+        margin: 0 0 25px !important;
+
+        text-align: right !important;
+
+        font-size: clamp(16px, 1.25vw, 20px) !important;
+        line-height: 1.9 !important;
+    }
+
+
+    /* زر تسوق الآن */
+    .athr-hero-clean-button {
+        width: 210px !important;
+        height: 58px !important;
+
+        margin: 0 0 28px !important;
+        padding: 0 !important;
+
+        display: inline-flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        gap: 14px !important;
+
+        align-self: flex-end !important;
+
+        border-radius: 12px !important;
+
+        font-size: 16px !important;
+        font-weight: 700 !important;
+
+        box-sizing: border-box !important;
+    }
+
+
+    /* المميزات */
+    .athr-hero-clean-features {
+        width: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        align-items: center !important;
+        justify-content: flex-end !important;
+
+        gap: 26px !important;
+
+        align-self: flex-end !important;
+    }
+
+
+    /* كل ميزة */
+    .athr-clean-feature {
+        display: flex !important;
+
+        flex-direction: row !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        gap: 11px !important;
+
+        white-space: nowrap !important;
+
+        text-align: right !important;
+    }
+
+
+    /* الأيقونة */
+    .athr-clean-icon {
+        width: 48px !important;
+        height: 48px !important;
+
+        min-width: 48px !important;
+        min-height: 48px !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        border-radius: 50% !important;
+    }
+
+
+    .athr-clean-icon svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+
+    /* الخط بين المميزات */
+    .athr-clean-divider {
+        display: block !important;
+
+        width: 1px !important;
+        height: 52px !important;
+
+        margin: 0 2px !important;
+
+        background: rgba(255,255,255,.5) !important;
+    }
+}
