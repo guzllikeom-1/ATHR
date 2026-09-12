@@ -1360,290 +1360,6 @@ input {
     }
 
 }
-/* =====================================================
-   ATHR HERO
-   Desktop + Mobile
-===================================================== */
-
-.athr-hero {
-    position: relative;
-    width: 100%;
-    height: 650px;
-    overflow: hidden;
-    background: #5d1010;
-}
-
-
-/* =====================================================
-   HERO IMAGE
-===================================================== */
-
-.athr-hero-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.athr-hero-bg img {
-    width: 100%;
-    height: 100%;
-    display: block;
-
-    object-fit: cover;
-    object-position: center center;
-}
-
-
-/* =====================================================
-   BURGUNDY OVERLAY
-   جهة الكلام = اليمين
-===================================================== */
-
-.athr-hero-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-
-    background:
-        linear-gradient(
-            to left,
-            rgba(91, 12, 12, 0.92) 0%,
-            rgba(91, 12, 12, 0.76) 20%,
-            rgba(91, 12, 12, 0.48) 38%,
-            rgba(91, 12, 12, 0.18) 58%,
-            rgba(91, 12, 12, 0.00) 78%
-        );
-}
-
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-.athr-hero-container {
-    position: relative;
-    z-index: 3;
-
-    width: 100%;
-    height: 100%;
-
-    max-width: 1400px;
-
-    margin: 0 auto;
-
-    box-sizing: border-box;
-}
-
-
-/* =====================================================
-   HERO CONTENT
-===================================================== */
-
-.athr-hero-content {
-    position: absolute;
-
-    top: 43%;
-    right: 4%;
-
-    transform: translateY(-50%);
-
-    width: 43%;
-    max-width: 570px;
-
-    text-align: right;
-
-    color: #ffffff;
-}
-
-
-/* =====================================================
-   TITLE
-===================================================== */
-
-.athr-hero-content h1 {
-    margin: 0 0 22px;
-
-    color: #ffffff;
-
-    font-size: clamp(42px, 4.2vw, 68px);
-
-    line-height: 1.35;
-
-    font-weight: 800;
-
-    letter-spacing: 0;
-}
-
-
-/* =====================================================
-   DESCRIPTION
-===================================================== */
-
-.athr-hero-content p {
-    margin: 0 0 28px;
-
-    color: #ffffff;
-
-    font-size: clamp(16px, 1.35vw, 21px);
-
-    line-height: 1.9;
-
-    font-weight: 400;
-}
-
-
-/* =====================================================
-   SHOP BUTTON
-===================================================== */
-
-.athr-hero-button {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 16px;
-
-    min-width: 210px;
-    height: 58px;
-
-    padding: 0 28px;
-
-    box-sizing: border-box;
-
-    border-radius: 12px;
-
-    background: #ffffff;
-
-    color: #641111;
-
-    text-decoration: none;
-
-    font-size: 17px;
-
-    font-weight: 700;
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.18);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.athr-hero-button:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.25);
-}
-
-
-.athr-arrow {
-    font-size: 22px;
-
-    line-height: 1;
-}
-
-
-/* =====================================================
-   FEATURES
-===================================================== */
-
-.athr-hero-features {
-    display: flex;
-
-    align-items: center;
-    justify-content: flex-start;
-
-    width: 100%;
-
-    margin-top: 32px;
-
-    direction: rtl;
-}
-
-
-/* =====================================================
-   FEATURE
-===================================================== */
-
-.athr-feature {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-
-    color: #ffffff;
-
-    text-align: right;
-}
-
-
-/* =====================================================
-   FEATURE ICON
-===================================================== */
-
-.athr-feature-icon {
-    width: 48px;
-    height: 48px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid rgba(255, 255, 255, 0.55);
-
-    border-radius: 50%;
-}
-
-.athr-feature-icon svg {
-    width: 25px;
-    height: 25px;
-
-    color: #ffffff;
-}
-
-
-/* =====================================================
-   FEATURE TEXT
-===================================================== */
-
-.athr-feature-text {
-    color: #ffffff;
-
-    font-size: 14px;
-
-    line-height: 1.7;
-}
-
-.athr-feature-text strong {
-    color: #ffffff;
-
-    font-weight: 600;
-}
-
-
-/* =====================================================
-   DIVIDER
-===================================================== */
-
-.athr-feature-divider {
-    width: 1px;
-    height: 45px;
-
-    margin: 0 28px;
-
-    background: rgba(255, 255, 255, 0.45);
-}
-
 
 /* =====================================================
    MOBILE
@@ -4127,5 +3843,206 @@ button{font-family:inherit}
         width: 1px !important;
         height: 45px !important;
         margin: 0 28px !important;
+    }
+}
+/* =====================================================
+   ATHR DESKTOP HERO — DEFINITIVE FIX
+   لا يؤثر على الجوال
+===================================================== */
+
+@media (min-width: 769px) {
+
+    /* 1 — الهيرو */
+    .athr-hero {
+        position: relative !important;
+        display: block !important;
+
+        width: 100% !important;
+        height: 650px !important;
+        min-height: 650px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        overflow: hidden !important;
+
+        background-image: url("../images/hero/hero-products.jpg") !important;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-position: center center !important;
+    }
+
+
+    /* 2 — نخفي طبقة الصورة القديمة في اللابتوب */
+    .athr-hero-bg {
+        display: none !important;
+    }
+
+
+    /* 3 — نلغي أي Overlay قديم */
+    .athr-hero-overlay {
+        position: absolute !important;
+
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        display: block !important;
+
+        z-index: 2 !important;
+
+        background:
+            linear-gradient(
+                to left,
+                rgba(91, 12, 12, 0.92) 0%,
+                rgba(91, 12, 12, 0.76) 20%,
+                rgba(91, 12, 12, 0.48) 38%,
+                rgba(91, 12, 12, 0.18) 58%,
+                rgba(91, 12, 12, 0) 78%
+            ) !important;
+
+        border-radius: 0 !important;
+    }
+
+
+    /* 4 — حاوية المحتوى */
+    .athr-hero-container {
+        position: relative !important;
+
+        width: 100% !important;
+        height: 650px !important;
+
+        max-width: 1400px !important;
+
+        margin: 0 auto !important;
+        padding: 0 !important;
+
+        z-index: 5 !important;
+    }
+
+
+    /* 5 — محتوى اليمين */
+    .athr-hero-content {
+        position: absolute !important;
+
+        top: 43% !important;
+        right: 4% !important;
+        left: auto !important;
+
+        width: 43% !important;
+        max-width: 570px !important;
+
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        display: block !important;
+
+        transform: translateY(-50%) !important;
+
+        background: transparent !important;
+
+        text-align: right !important;
+
+        color: #fff !important;
+    }
+
+
+    /* 6 — العنوان */
+    .athr-hero-content h1 {
+        display: block !important;
+
+        margin: 0 0 22px !important;
+        padding: 0 !important;
+
+        background: transparent !important;
+
+        color: #fff !important;
+
+        font-size: clamp(42px, 4.2vw, 68px) !important;
+        line-height: 1.35 !important;
+
+        font-weight: 800 !important;
+    }
+
+
+    /* 7 — الوصف */
+    .athr-hero-content p {
+        display: block !important;
+
+        margin: 0 0 28px !important;
+        padding: 0 !important;
+
+        background: transparent !important;
+
+        color: #fff !important;
+
+        font-size: clamp(16px, 1.35vw, 21px) !important;
+        line-height: 1.9 !important;
+    }
+
+
+    /* 8 — الزر */
+    .athr-hero-button {
+        position: static !important;
+
+        display: inline-flex !important;
+
+        width: auto !important;
+        min-width: 210px !important;
+        height: 58px !important;
+
+        margin: 0 !important;
+        padding: 0 28px !important;
+
+        transform: none !important;
+
+        background: #fff !important;
+        color: #641111 !important;
+
+        border-radius: 12px !important;
+    }
+
+
+    /* 9 — المميزات */
+    .athr-hero-features {
+        position: static !important;
+
+        width: 100% !important;
+
+        margin-top: 32px !important;
+        padding: 0 !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: flex-start !important;
+
+        background: transparent !important;
+    }
+
+
+    .athr-feature {
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        flex-direction: row !important;
+
+        background: transparent !important;
+    }
+
+
+    /* 10 — إلغاء أي عناصر Hero قديمة */
+    .athr-hero > .hero,
+    .athr-hero .hero-image,
+    .athr-hero .hero-image-wrapper {
+        display: none !important;
     }
 }
