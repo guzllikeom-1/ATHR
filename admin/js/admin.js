@@ -7,6 +7,7 @@ const BUCKET = "product-images";
 let categories = [];
 let allProducts = [];
 let editingProduct = null;
+let editingCategory = null;
 
 const $ = (id) => document.getElementById(id);
 
@@ -146,8 +147,8 @@ $("logoutBtn").addEventListener("click", async () => {
 async function loadCategories() {
     const { data, error } = await athrSupabase
         .from("categories")
-        .select("id, name, slug")
-        .order("name", { ascending: true });
+        .select("id, name, slug, created_at")
+        .order("created_at", { ascending: false });
 
     if (error) {
         console.error(error);
@@ -157,11 +158,264 @@ async function loadCategories() {
 
     categories = data || [];
 
-    $("productCategory").innerHTML = '<option value="">اختر القسم</option>' +
-        categories.map(category => `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`).join("");
+    // تحديث قائمة الأقسام داخل إضافة/تعديل المنتج
+    $("productCategory").innerHTML =
+        '<option value="">اختر القسم</option>' +
+        categories
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name, "ar"))
+            .map(category =>
+                `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`
+            )
+            .join("");
 
-    categoryFilter.innerHTML = '<option value="all">كل الأقسام</option>' +
-        categories.map(category => `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`).join("");
+    // تحديث فلتر المنتجات
+    categoryFilter.innerHTML =
+        '<option value="all">كل الأقسام</option>' +
+        categories
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name, "ar"))
+            .map(category =>
+                `<option value="${escapeHtml(category.id)}">${escapeHtml(category.name)}</option>`
+            )
+            .join("");
+
+    // عرض الأقسام داخل لوحة التحكم
+    renderCategories();
+}
+
+// =====================================================
+// CATEGORIES MANAGEMENT
+// =====================================================
+
+function renderCategories() {
+    const loading = $("categoriesLoading");
+    const empty = $("categoriesEmpty");
+    const tableWrap = $("categoriesTableWrap");
+    const tableBody = $("categoriesTableBody");
+
+    if (!loading || !empty || !tableWrap || !tableBody) return;
+
+    loading.classList.add("hidden");
+
+    if (!categories.length) {
+        empty.classList.remove("hidden");
+        tableWrap.classList.add("hidden");
+        tableBody.innerHTML = "";
+        return;
+    }
+
+    empty.classList.add("hidden");
+    tableWrap.classList.remove("hidden");
+
+    tableBody.innerHTML = categories.map(category => {
+        const date = category.created_at
+            ? new Date(category.created_at).toLocaleDateString("ar-OM", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+            })
+            : "—";
+
+        return `
+            <tr>
+                <td>
+                    <strong>${escapeHtml(category.name)}</strong>
+                </td>
+
+                <td>
+                    <span class="product-id">
+                        ${escapeHtml(category.slug)}
+                    </span>
+                </td>
+
+                <td>${date}</td>
+
+                <td>
+                    <div class="actions">
+                        <button
+                            class="action-btn edit"
+                            type="button"
+                            data-edit-category="${escapeHtml(category.id)}"
+                        >
+                            تعديل
+                        </button>
+
+                        <button
+                            class="action-btn delete"
+                            type="button"
+                            data-delete-category="${escapeHtml(category.id)}"
+                        >
+                            حذف
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+
+    tableBody.querySelectorAll("[data-edit-category]").forEach(button => {
+        button.addEventListener("click", () => {
+            editCategory(button.dataset.editCategory);
+        });
+    });
+
+    tableBody.querySelectorAll("[data-delete-category]").forEach(button => {
+        button.addEventListener("click", () => {
+            deleteCategory(button.dataset.deleteCategory);
+        });
+    });
+}
+
+
+function createCategorySlug(name) {
+    return name
+        .trim()
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}]+/gu, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+
+async function addCategory() {
+    const name = window.prompt("اكتب اسم القسم الجديد:");
+
+    if (name === null) return;
+
+    const cleanName = name.trim();
+
+    if (!cleanName) {
+        showToast("اكتب اسم القسم أولًا.", true);
+        return;
+    }
+
+    const slug = createCategorySlug(cleanName);
+
+    if (!slug) {
+        showToast("تعذر إنشاء معرّف القسم.", true);
+        return;
+    }
+
+    const existing = categories.some(
+        category => category.slug === slug
+    );
+
+    if (existing) {
+        showToast("هذا القسم موجود بالفعل.", true);
+        return;
+    }
+
+    const { error } = await athrSupabase
+        .from("categories")
+        .insert({
+            name: cleanName,
+            slug: slug
+        });
+
+    if (error) {
+        console.error(error);
+        showToast(getFriendlyError(error), true);
+        return;
+    }
+
+    showToast("تمت إضافة القسم بنجاح ✅");
+
+    await loadCategories();
+}
+
+
+async function editCategory(categoryId) {
+    const category = categories.find(
+        item => item.id === categoryId
+    );
+
+    if (!category) return;
+
+    const name = window.prompt(
+        "عدّل اسم القسم:",
+        category.name
+    );
+
+    if (name === null) return;
+
+    const cleanName = name.trim();
+
+    if (!cleanName) {
+        showToast("اسم القسم لا يمكن أن يكون فارغًا.", true);
+        return;
+    }
+
+    const { error } = await athrSupabase
+        .from("categories")
+        .update({
+            name: cleanName
+        })
+        .eq("id", categoryId);
+
+    if (error) {
+        console.error(error);
+        showToast(getFriendlyError(error), true);
+        return;
+    }
+
+    showToast("تم تعديل القسم بنجاح ✅");
+
+    await loadCategories();
+    await loadProducts();
+}
+
+
+async function deleteCategory(categoryId) {
+    const category = categories.find(
+        item => item.id === categoryId
+    );
+
+    if (!category) return;
+
+    // التأكد أولًا من عدم وجود منتجات داخل القسم
+    const { count, error: countError } = await athrSupabase
+        .from("products")
+        .select("id", {
+            count: "exact",
+            head: true
+        })
+        .eq("category_id", categoryId);
+
+    if (countError) {
+        console.error(countError);
+        showToast("تعذر التحقق من منتجات هذا القسم.", true);
+        return;
+    }
+
+    if (count > 0) {
+        showToast(
+            `لا يمكن حذف قسم "${category.name}" لأنه يحتوي على ${count} منتج. انقل المنتجات إلى قسم آخر أولًا.`,
+            true
+        );
+        return;
+    }
+
+    const confirmed = window.confirm(
+        `هل أنت متأكد من حذف القسم:\n\n${category.name}\n\nلن يمكن التراجع عن هذا الإجراء.`
+    );
+
+    if (!confirmed) return;
+
+    const { error } = await athrSupabase
+        .from("categories")
+        .delete()
+        .eq("id", categoryId);
+
+    if (error) {
+        console.error(error);
+        showToast(getFriendlyError(error), true);
+        return;
+    }
+
+    showToast("تم حذف القسم بنجاح ✅");
+
+    await loadCategories();
+    await loadProducts();
 }
 
 async function loadProducts() {
@@ -545,5 +799,31 @@ function getFriendlyError(error) {
     if (error.message?.includes("duplicate")) return "هذا المنتج موجود مسبقًا.";
     return error.message || "حدث خطأ أثناء العملية.";
 }
+
+document.querySelectorAll(".side-link").forEach(button => {
+    button.addEventListener("click", () => {
+        const targetId = button.dataset.section;
+
+        document.querySelectorAll(".side-link").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        document.querySelectorAll(".content-card").forEach(section => {
+            section.classList.add("hidden");
+        });
+
+        const target = $(targetId);
+
+        if (target) {
+            target.classList.remove("hidden");
+        }
+    });
+});
+
+
+$("addCategoryBtn")?.addEventListener("click", addCategory);
+
 
 initAdmin();
