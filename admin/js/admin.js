@@ -853,3 +853,161 @@ $("addCategoryBtn")?.addEventListener("click", addCategory);
 
 
 initAdmin();
+
+// =========================================================
+// WHATSAPP MESSAGE SETTINGS
+// تحميل وحفظ رسالة واتساب من Supabase
+// =========================================================
+
+async function loadWhatsappMessage() {
+    const textarea = document.getElementById("whatsappMessage");
+    const preview = document.getElementById("whatsappPreview");
+
+    if (!textarea) return;
+
+    textarea.disabled = true;
+
+    const { data, error } = await athrSupabase
+        .from("store_settings")
+        .select("whatsapp_message")
+        .eq("id", 1)
+        .maybeSingle();
+
+    if (error) {
+        console.error("WhatsApp settings load error:", error);
+
+        textarea.disabled = false;
+
+        if (preview) {
+            preview.textContent = "تعذر تحميل رسالة واتساب.";
+        }
+
+        return;
+    }
+
+    if (data?.whatsapp_message) {
+        textarea.value = data.whatsapp_message;
+    }
+
+    textarea.disabled = false;
+
+    updateWhatsappPreview();
+}
+
+
+// =========================================================
+// معاينة رسالة واتساب
+// =========================================================
+
+function updateWhatsappPreview() {
+    const textarea = document.getElementById("whatsappMessage");
+    const preview = document.getElementById("whatsappPreview");
+
+    if (!textarea || !preview) return;
+
+    const message = textarea.value || "";
+
+    // بيانات تجريبية للمعاينة فقط
+    const previewProducts =
+`🛍️ كوب النصر × 2 - 7.000 ر.ع
+🛍️ Mug أبيض × 1 - 3.500 ر.ع`;
+
+    const previewTotal = "10.500";
+
+    const result = message
+        .replaceAll("{products}", previewProducts)
+        .replaceAll("{total}", previewTotal);
+
+    preview.textContent = result;
+}
+
+
+// =========================================================
+// حفظ رسالة واتساب
+// =========================================================
+
+async function saveWhatsappMessage() {
+    const textarea = document.getElementById("whatsappMessage");
+    const status = document.getElementById("whatsappMessageStatus");
+    const button = document.getElementById("saveWhatsappMessageBtn");
+
+    if (!textarea) return;
+
+    const message = textarea.value.trim();
+
+    if (!message) {
+        if (status) {
+            status.textContent = "اكتبي رسالة واتساب أولًا.";
+            status.className = "form-message error";
+        }
+
+        return;
+    }
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = "جاري الحفظ...";
+    }
+
+    if (status) {
+        status.textContent = "";
+        status.className = "form-message";
+    }
+
+    const { error } = await athrSupabase
+        .from("store_settings")
+        .update({
+            whatsapp_message: message
+        })
+        .eq("id", 1);
+
+    if (error) {
+        console.error("WhatsApp settings save error:", error);
+
+        if (status) {
+            status.textContent = "تعذر حفظ الرسالة. حاولي مرة أخرى.";
+            status.className = "form-message error";
+        }
+
+        if (button) {
+            button.disabled = false;
+            button.textContent = "حفظ رسالة واتساب";
+        }
+
+        return;
+    }
+
+    if (status) {
+        status.textContent = "تم حفظ رسالة واتساب بنجاح ✅";
+        status.className = "form-message success";
+    }
+
+    if (button) {
+        button.disabled = false;
+        button.textContent = "حفظ رسالة واتساب";
+    }
+
+    updateWhatsappPreview();
+}
+
+
+// =========================================================
+// أحداث واجهة واتساب
+// =========================================================
+
+document.getElementById("saveWhatsappMessageBtn")?.addEventListener(
+    "click",
+    saveWhatsappMessage
+);
+
+document.getElementById("whatsappMessage")?.addEventListener(
+    "input",
+    updateWhatsappPreview
+);
+
+
+// =========================================================
+// تحميل الرسالة عند فتح صفحة الإدارة
+// =========================================================
+
+loadWhatsappMessage();
