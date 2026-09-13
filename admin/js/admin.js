@@ -937,7 +937,7 @@ async function saveWhatsappMessage() {
 
     if (!message) {
         if (status) {
-            status.textContent = "اكتبي رسالة واتساب أولًا.";
+            status.textContent = "اكتب رسالة واتساب أولًا.";
             status.className = "form-message error";
         }
 
@@ -965,7 +965,7 @@ async function saveWhatsappMessage() {
         console.error("WhatsApp settings save error:", error);
 
         if (status) {
-            status.textContent = "تعذر حفظ الرسالة. حاولي مرة أخرى.";
+            status.textContent = "تعذر حفظ الرسالة. حاول مرة أخرى.";
             status.className = "form-message error";
         }
 
