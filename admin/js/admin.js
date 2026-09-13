@@ -804,16 +804,36 @@ document.querySelectorAll(".side-link").forEach(button => {
     button.addEventListener("click", () => {
         const targetId = button.dataset.section;
 
+        // تحديث الزر النشط
         document.querySelectorAll(".side-link").forEach(item => {
             item.classList.remove("active");
         });
 
         button.classList.add("active");
 
+        // إخفاء الأقسام الرئيسية
         document.querySelectorAll(".content-card").forEach(section => {
             section.classList.add("hidden");
         });
 
+        // العناصر الخاصة بواجهة المنتجات
+        const dashboardHeader = document.querySelector(".dashboard-header");
+        const statsGrid = document.querySelector(".stats-grid");
+
+        if (targetId === "productsSection") {
+
+            // إظهار عنوان المنتجات والإحصائيات
+            dashboardHeader?.classList.remove("hidden");
+            statsGrid?.classList.remove("hidden");
+
+        } else if (targetId === "categoriesSection") {
+
+            // إخفاء كل ما يخص المنتجات
+            dashboardHeader?.classList.add("hidden");
+            statsGrid?.classList.add("hidden");
+        }
+
+        // إظهار القسم المطلوب
         const target = $(targetId);
 
         if (target) {
@@ -821,7 +841,6 @@ document.querySelectorAll(".side-link").forEach(button => {
         }
     });
 });
-
 
 $("addCategoryBtn")?.addEventListener("click", addCategory);
 
