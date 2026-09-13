@@ -146,3 +146,32 @@ td { font-size: 13px; }
     .modal-actions { display: grid; grid-template-columns: 1fr 1.5fr; }
     .modal-actions button { width: 100%; }
 }
+/* =========================================================
+   MOBILE ADMIN NAVIGATION
+   إظهار المنتجات والأقسام على الجوال
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .sidebar nav {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding-top: 0;
+        margin-top: 10px;
+    }
+
+    .sidebar .side-link {
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 8px;
+        border-radius: 11px;
+        text-align: center;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .sidebar .side-link.active {
+        background: rgba(255,255,255,.20);
+    }
+}
