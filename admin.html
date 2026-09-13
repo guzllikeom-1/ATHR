@@ -50,6 +50,7 @@
             <nav>
     <button class="side-link active" data-section="productsSection">🛍️ المنتجات</button>
     <button class="side-link" data-section="categoriesSection">📂 الأقسام</button>
+    <button class="side-link" data-section="whatsappSection">💬 واتساب</button>
 </nav>
 
             <div class="sidebar-bottom">
@@ -107,8 +108,70 @@
                 </div>
             </section>
 
-            <!-- CATEGORIES SECTION -->
-            <section id="categoriesSection" class="content-card hidden">
+           <!-- WHATSAPP SETTINGS SECTION -->
+<section id="whatsappSection" class="content-card hidden">
+
+    <div class="section-toolbar">
+        <div>
+            <h2>إعدادات واتساب 💬</h2>
+            <p>اكتب رسالة الطلب التي تريد أن تصل للعميل عبر واتساب.</p>
+        </div>
+    </div>
+
+    <div class="whatsapp-settings-card">
+
+        <label for="whatsappMessage">
+            رسالة الطلب
+        </label>
+
+        <textarea
+            id="whatsappMessage"
+            rows="14"
+            placeholder="اكتب رسالة الطلب هنا..."
+        ></textarea>
+
+        <div class="whatsapp-variables">
+            <h3>المتغيرات المتاحة</h3>
+
+            <div class="variable-item">
+                <code>{products}</code>
+                <span>يستبدل تلقائيًا بأسماء المنتجات والكميات والأسعار.</span>
+            </div>
+
+            <div class="variable-item">
+                <code>{total}</code>
+                <span>يستبدل تلقائيًا بإجمالي الطلب.</span>
+            </div>
+        </div>
+
+        <div class="whatsapp-preview">
+            <div class="preview-heading">
+                <strong>معاينة الرسالة</strong>
+                <span>مثال</span>
+            </div>
+
+            <pre id="whatsappPreview"></pre>
+        </div>
+
+        <div id="whatsappMessageStatus" class="form-message"></div>
+
+        <div class="modal-actions">
+            <button
+                type="button"
+                class="primary-btn"
+                id="saveWhatsappMessageBtn"
+            >
+                حفظ رسالة واتساب
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CATEGORIES SECTION -->
+<section id="categoriesSection" class="content-card hidden">
+    
                 <div class="section-toolbar">
                     <div>
                         <h2>الأقسام</h2>
