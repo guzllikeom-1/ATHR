@@ -833,6 +833,13 @@ document.querySelectorAll(".side-link").forEach(button => {
             statsGrid?.classList.add("hidden");
         }
 
+       else if (targetId === "whatsappSection") {
+
+    // إخفاء كل ما يخص المنتجات
+    dashboardHeader?.classList.add("hidden");
+    statsGrid?.classList.add("hidden");
+}
+
         // إظهار القسم المطلوب
         const target = $(targetId);
 
