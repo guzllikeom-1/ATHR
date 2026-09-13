@@ -2,6 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   setupHeader();
   updateAthrCartCount();
+  loadDynamicCategories();
   const page = document.body.dataset.page || "";
   if (page === "home") loadHomeProducts();
   if (page === "shop") loadShopPage();
@@ -66,8 +67,11 @@ async function loadShopPage(){
   if(!grid)return;
 
   try{
-    const products=await fetchProducts();
-    window.athrShopProducts=products;
+   const products = await fetchProducts();
+const categories = await fetchCategories();
+
+window.athrShopProducts = products;
+window.athrCategories = categories;
 
     const params=new URLSearchParams(location.search);
     let category=params.get("category")||"all";
@@ -76,7 +80,7 @@ async function loadShopPage(){
     const sortSelect=document.getElementById("shopSort");
     if(sortSelect) sortSelect.value=sort;
 
-    buildShopFilters(products,category);
+    buildShopFilters(categories, category);
 
     const updateCategoryIntro=(selected)=>{
       const intro=document.getElementById("shopCategoryIntro");
@@ -131,34 +135,88 @@ async function loadShopPage(){
   }
 }
 
-function buildShopFilters(products, selected) {
+async function fetchCategories() {
+  const { data, error } = await athrSupabase
+    .from("categories")
+    .select("id,name,slug,created_at")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Categories error:", error);
+    return [];
+  }
+
+  return data || [];
+}
+
+
+async function loadDynamicCategories() {
+  try {
+    const categories = await fetchCategories();
+
+    // =========================
+    // قائمة الأقسام في الكمبيوتر
+    // =========================
+    const desktopDropdown = document.getElementById("categoriesDropdown");
+
+    if (desktopDropdown) {
+      desktopDropdown.innerHTML = categories.map(category => `
+        <a href="shop.html?category=${encodeURIComponent(category.slug)}">
+          ${escapeHtml(category.name)}
+        </a>
+      `).join("");
+    }
+
+
+    // =========================
+    // قائمة الأقسام في الجوال
+    // =========================
+    const mobileCategories = document.getElementById("mobileCategories");
+
+    if (mobileCategories) {
+      mobileCategories.innerHTML = categories.map(category => `
+        <a href="shop.html?category=${encodeURIComponent(category.slug)}">
+          ${escapeHtml(category.name)}
+        </a>
+      `).join("");
+    }
+
+    // حفظ الأقسام لاستخدامها في باقي الموقع
+    window.athrCategories = categories;
+
+    return categories;
+
+  } catch (error) {
+    console.error("Dynamic categories error:", error);
+    return [];
+  }
+}
+
+
+function buildShopFilters(categories, selected) {
   const row = document.getElementById("shopFilters");
+
   if (!row) return;
 
-  const order = [
-    ["all", "الكل"],
-    ["clubs", "أكواب الأندية"],
-    ["university", "أكواب الجامعات"],
-    ["girls", "أكواب البنات"],
-    ["quotes", "أكواب العبارات"],
-    ["redbull", "Red Bull المضيئة"],
-    ["stanley", "Stanley"],
-    ["mugs", "المجات"],
-    ["coffee", "أدوات القهوة"],
-    ["wallets", "المحافظ"],
-    ["makeup-bags", "حقائب المكياج"]
-  ];
+  const allButton = `
+    <button
+      type="button"
+      class="filter-chip ${selected === "all" ? "active" : ""}"
+      data-category="all">
+      الكل
+    </button>
+  `;
 
-  row.innerHTML = order
-    .map(([slug, name]) => `
-      <button
-        type="button"
-        class="filter-chip ${slug === selected ? "active" : ""}"
-        data-category="${escapeHtml(slug)}">
-        ${escapeHtml(name)}
-      </button>
-    `)
-    .join("");
+  const categoryButtons = categories.map(category => `
+    <button
+      type="button"
+      class="filter-chip ${category.slug === selected ? "active" : ""}"
+      data-category="${escapeHtml(category.slug)}">
+      ${escapeHtml(category.name)}
+    </button>
+  `).join("");
+
+  row.innerHTML = allButton + categoryButtons;
 
   if (!row.querySelector(".filter-chip.active")) {
     row.querySelector('[data-category="all"]')?.classList.add("active");
