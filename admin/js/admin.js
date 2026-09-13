@@ -337,6 +337,71 @@ productImage.addEventListener("change", () => {
     imagePreview.innerHTML = `<img src="${url}" alt="معاينة الصورة">`;
 });
 
+async function convertImageToJpeg(file) {
+    return new Promise((resolve, reject) => {
+        const objectUrl = URL.createObjectURL(file);
+        const img = new Image();
+
+        img.onload = () => {
+            try {
+                const canvas = document.createElement("canvas");
+
+                const maxSize = 2400;
+                let width = img.naturalWidth;
+                let height = img.naturalHeight;
+
+                if (width > maxSize || height > maxSize) {
+                    const ratio = Math.min(maxSize / width, maxSize / height);
+                    width = Math.round(width * ratio);
+                    height = Math.round(height * ratio);
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext("2d");
+
+                if (!ctx) {
+                    URL.revokeObjectURL(objectUrl);
+                    reject(new Error("تعذر تجهيز الصورة."));
+                    return;
+                }
+
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0, 0, width, height);
+
+                ctx.drawImage(img, 0, 0, width, height);
+
+                canvas.toBlob(
+                    blob => {
+                        URL.revokeObjectURL(objectUrl);
+
+                        if (!blob) {
+                            reject(new Error("تعذر تحويل الصورة."));
+                            return;
+                        }
+
+                        resolve(blob);
+                    },
+                    "image/jpeg",
+                    0.90
+                );
+
+            } catch (error) {
+                URL.revokeObjectURL(objectUrl);
+                reject(error);
+            }
+        };
+
+        img.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("تعذر قراءة الصورة. جربي صورة JPG أو PNG."));
+        };
+
+        img.src = objectUrl;
+    });
+}
+
 productForm.addEventListener("submit", async event => {
     event.preventDefault();
     formMessage.textContent = "";
@@ -359,27 +424,27 @@ productForm.addEventListener("submit", async event => {
         let imageUrl = editingProduct?.image_url || "";
         let uploadedPath = null;
 
-        if (selectedFile) {
-            const extension = (selectedFile.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
-            uploadedPath = `${Date.now()}-${crypto.randomUUID().replaceAll("-", "")}.${extension}`;
+       if (selectedFile) {
+    const jpegBlob = await convertImageToJpeg(selectedFile);
 
-            const { error: uploadError } = await athrSupabase.storage
-                .from(BUCKET)
-                .upload(uploadedPath, selectedFile, {
-                    cacheControl: "3600",
-                    upsert: false,
-                    contentType: selectedFile.type
-                });
+    uploadedPath = `${Date.now()}-${crypto.randomUUID().replaceAll("-", "")}.jpg`;
 
-            if (uploadError) throw uploadError;
+    const { error: uploadError } = await athrSupabase.storage
+        .from(BUCKET)
+        .upload(uploadedPath, jpegBlob, {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: "image/jpeg"
+        });
 
-            const { data: publicUrlData } = athrSupabase.storage
-                .from(BUCKET)
-                .getPublicUrl(uploadedPath);
+    if (uploadError) throw uploadError;
 
-            imageUrl = publicUrlData.publicUrl;
-        }
+    const { data: publicUrlData } = athrSupabase.storage
+        .from(BUCKET)
+        .getPublicUrl(uploadedPath);
 
+    imageUrl = publicUrlData.publicUrl;
+}
         if (!imageUrl) {
             formMessage.textContent = "اختر صورة للمنتج أولًا.";
             return;
