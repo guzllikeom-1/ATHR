@@ -48,8 +48,9 @@
             </div>
 
             <nav>
-                <button class="side-link active" data-section="productsSection">🛍️ المنتجات</button>
-            </nav>
+    <button class="side-link active" data-section="productsSection">🛍️ المنتجات</button>
+    <button class="side-link" data-section="categoriesSection">📂 الأقسام</button>
+</nav>
 
             <div class="sidebar-bottom">
                 <a href="index.html" target="_blank" class="store-link">↗ فتح المتجر</a>
@@ -102,6 +103,43 @@
                             </tr>
                         </thead>
                         <tbody id="productsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- CATEGORIES SECTION -->
+            <section id="categoriesSection" class="content-card hidden">
+                <div class="section-toolbar">
+                    <div>
+                        <h2>الأقسام</h2>
+                        <p>أضف أقسام المتجر وعدّلها أو احذفها بسهولة.</p>
+                    </div>
+
+                    <button id="addCategoryBtn" class="primary-btn" type="button">
+                        ＋ إضافة قسم
+                    </button>
+                </div>
+
+                <div id="categoriesLoading" class="state-box">
+                    جاري تحميل الأقسام...
+                </div>
+
+                <div id="categoriesEmpty" class="state-box hidden">
+                    لا توجد أقسام حتى الآن.
+                </div>
+
+                <div id="categoriesTableWrap" class="table-wrap hidden">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم القسم</th>
+                                <th>المعرّف</th>
+                                <th>تاريخ الإضافة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="categoriesTableBody"></tbody>
                     </table>
                 </div>
             </section>
