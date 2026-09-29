@@ -138,7 +138,7 @@ window.athrCategories = categories;
 async function fetchCategories() {
   const { data, error } = await athrSupabase
     .from("categories")
-    .select("id,name,slug,created_at")
+    .select("id,name,slug,image_url,created_at")
     .order("created_at", { ascending: true });
 
   if (error) {
@@ -149,49 +149,156 @@ async function fetchCategories() {
   return data || [];
 }
 
-
 async function loadDynamicCategories() {
   try {
+
     const categories = await fetchCategories();
 
-    // =========================
+    // =====================================================
+    // ترتيب الأقسام
+    // الأقسام الأساسية تبقى بترتيب المتجر الحالي
+    // والأقسام الجديدة تضاف بعدها تلقائيًا
+    // =====================================================
+
+    const defaultOrder = [
+      "clubs",
+      "girls",
+      "quotes",
+      "university",
+      "redbull",
+      "stanley",
+      "mugs",
+      "coffee",
+      "wallets",
+      "makeup-bags"
+    ];
+
+    const orderedCategories = [
+      ...defaultOrder
+        .map(slug => categories.find(category => category.slug === slug))
+        .filter(Boolean),
+
+      ...categories.filter(
+        category => !defaultOrder.includes(category.slug)
+      )
+    ];
+
+
+    // =====================================================
     // قائمة الأقسام في الكمبيوتر
-    // =========================
-    const desktopDropdown = document.getElementById("categoriesDropdown");
+    // =====================================================
+
+    const desktopDropdown =
+      document.getElementById("categoriesDropdown");
 
     if (desktopDropdown) {
-      desktopDropdown.innerHTML = categories.map(category => `
-        <a href="shop.html?category=${encodeURIComponent(category.slug)}">
-          ${escapeHtml(category.name)}
-        </a>
-      `).join("");
+
+      desktopDropdown.innerHTML =
+        orderedCategories.map(category => `
+          <a
+            href="shop.html?category=${encodeURIComponent(category.slug)}"
+          >
+            ${escapeHtml(category.name)}
+          </a>
+        `).join("");
+
     }
 
 
-    // =========================
+    // =====================================================
     // قائمة الأقسام في الجوال
-    // =========================
-    const mobileCategories = document.getElementById("mobileCategories");
+    // =====================================================
+
+    const mobileCategories =
+      document.getElementById("mobileCategories");
 
     if (mobileCategories) {
-      mobileCategories.innerHTML = categories.map(category => `
-        <a href="shop.html?category=${encodeURIComponent(category.slug)}">
-          ${escapeHtml(category.name)}
-        </a>
-      `).join("");
+
+      mobileCategories.innerHTML =
+        orderedCategories.map(category => `
+          <a
+            href="shop.html?category=${encodeURIComponent(category.slug)}"
+          >
+            ${escapeHtml(category.name)}
+          </a>
+        `).join("");
+
     }
 
-    // حفظ الأقسام لاستخدامها في باقي الموقع
-    window.athrCategories = categories;
 
-    return categories;
+    // =====================================================
+    // تسوق حسب القسم - الصفحة الرئيسية
+    // =====================================================
+
+    const homepageCategories =
+      document.querySelector(".athr-categories-grid");
+
+    if (homepageCategories) {
+
+      homepageCategories.innerHTML =
+        orderedCategories.map(category => {
+
+          /*
+           * الأقسام القديمة التي لم نرفع لها صورة من لوحة التحكم
+           * تستخدم صورتها القديمة الموجودة داخل المشروع.
+           *
+           * الأقسام الجديدة تستخدم image_url القادمة من Supabase.
+           */
+
+          const fallbackImage =
+            `images/categories/${encodeURIComponent(category.slug)}.jpg`;
+
+          const imageUrl =
+            category.image_url || fallbackImage;
+
+          return `
+            <a
+              href="shop.html?category=${encodeURIComponent(category.slug)}"
+              class="athr-category-card"
+            >
+
+              <div class="athr-category-image">
+
+                <img
+                  src="${escapeHtml(imageUrl)}"
+                  alt="${escapeHtml(category.name)}"
+                  loading="lazy"
+                >
+
+              </div>
+
+              <h3>
+                ${escapeHtml(category.name)}
+              </h3>
+
+            </a>
+          `;
+
+        }).join("");
+
+    }
+
+
+    // =====================================================
+    // حفظ الأقسام لاستخدامها في باقي الموقع
+    // =====================================================
+
+    window.athrCategories = orderedCategories;
+
+    return orderedCategories;
+
 
   } catch (error) {
-    console.error("Dynamic categories error:", error);
+
+    console.error(
+      "Dynamic categories error:",
+      error
+    );
+
     return [];
+
   }
 }
-
 
 function buildShopFilters(categories, selected) {
   const row = document.getElementById("shopFilters");
