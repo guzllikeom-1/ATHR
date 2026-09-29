@@ -150,10 +150,14 @@ $("logoutBtn").addEventListener("click", async () => {
     showLogin();
 });
 
+// =====================================================
+// CATEGORIES MANAGEMENT
+// =====================================================
+
 async function loadCategories() {
     const { data, error } = await athrSupabase
         .from("categories")
-        .select("id, name, slug, created_at")
+        .select("id, name, slug, image_url, created_at")
         .order("created_at", { ascending: false });
 
     if (error) {
@@ -190,8 +194,9 @@ async function loadCategories() {
     renderCategories();
 }
 
+
 // =====================================================
-// CATEGORIES MANAGEMENT
+// عرض الأقسام
 // =====================================================
 
 function renderCategories() {
@@ -215,6 +220,7 @@ function renderCategories() {
     tableWrap.classList.remove("hidden");
 
     tableBody.innerHTML = categories.map(category => {
+
         const date = category.created_at
             ? new Date(category.created_at).toLocaleDateString("ar-OM", {
                 year: "numeric",
@@ -225,8 +231,11 @@ function renderCategories() {
 
         return `
             <tr>
+
                 <td>
-                    <strong>${escapeHtml(category.name)}</strong>
+                    <strong>
+                        ${escapeHtml(category.name)}
+                    </strong>
                 </td>
 
                 <td>
@@ -235,10 +244,13 @@ function renderCategories() {
                     </span>
                 </td>
 
-                <td>${date}</td>
+                <td>
+                    ${date}
+                </td>
 
                 <td>
                     <div class="actions">
+
                         <button
                             class="action-btn edit"
                             type="button"
@@ -254,18 +266,23 @@ function renderCategories() {
                         >
                             حذف
                         </button>
+
                     </div>
                 </td>
+
             </tr>
         `;
+
     }).join("");
 
+    // أزرار التعديل
     tableBody.querySelectorAll("[data-edit-category]").forEach(button => {
         button.addEventListener("click", () => {
-            editCategory(button.dataset.editCategory);
+            openEditCategory(button.dataset.editCategory);
         });
     });
 
+    // أزرار الحذف
     tableBody.querySelectorAll("[data-delete-category]").forEach(button => {
         button.addEventListener("click", () => {
             deleteCategory(button.dataset.deleteCategory);
@@ -273,6 +290,10 @@ function renderCategories() {
     });
 }
 
+
+// =====================================================
+// إنشاء Slug للقسم
+// =====================================================
 
 function createCategorySlug(name) {
     return name
@@ -283,95 +304,405 @@ function createCategorySlug(name) {
 }
 
 
-async function addCategory() {
-    const name = window.prompt("اكتب اسم القسم الجديد:");
+// =====================================================
+// فتح نافذة إضافة قسم
+// =====================================================
 
-    if (name === null) return;
+function openAddCategory() {
 
-    const cleanName = name.trim();
+    editingCategory = null;
 
-    if (!cleanName) {
-        showToast("اكتب اسم القسم أولًا.", true);
-        return;
-    }
+    categoryForm.reset();
 
-    const slug = createCategorySlug(cleanName);
+    $("categoryId").value = "";
+    $("oldCategoryImageUrl").value = "";
 
-    if (!slug) {
-        showToast("تعذر إنشاء معرّف القسم.", true);
-        return;
-    }
+    categoryModalTitle.textContent = "إضافة قسم";
 
-    const existing = categories.some(
-        category => category.slug === slug
-    );
+    saveCategoryBtn.textContent = "حفظ القسم";
+    saveCategoryBtn.disabled = false;
 
-    if (existing) {
-        showToast("هذا القسم موجود بالفعل.", true);
-        return;
-    }
+    categoryFormMessage.textContent = "";
+    categoryFormMessage.className = "form-message";
 
-    const { error } = await athrSupabase
-        .from("categories")
-        .insert({
-            name: cleanName,
-            slug: slug
-        });
+    categoryImagePreview.innerHTML = "<span>صورة القسم</span>";
 
-    if (error) {
-        console.error(error);
-        showToast(getFriendlyError(error), true);
-        return;
-    }
+    categoryModal.classList.remove("hidden");
 
-    showToast("تمت إضافة القسم بنجاح ✅");
-
-    await loadCategories();
+    document.body.style.overflow = "hidden";
 }
 
 
-async function editCategory(categoryId) {
+// =====================================================
+// فتح نافذة تعديل قسم
+// =====================================================
+
+function openEditCategory(categoryId) {
+
     const category = categories.find(
         item => item.id === categoryId
     );
 
     if (!category) return;
 
-    const name = window.prompt(
-        "عدّل اسم القسم:",
-        category.name
-    );
+    editingCategory = category;
 
-    if (name === null) return;
+    $("categoryId").value = category.id;
+    $("oldCategoryImageUrl").value = category.image_url || "";
 
-    const cleanName = name.trim();
+    $("categoryName").value = category.name || "";
 
-    if (!cleanName) {
-        showToast("اسم القسم لا يمكن أن يكون فارغًا.", true);
-        return;
-    }
+    categoryImage.value = "";
 
-    const { error } = await athrSupabase
-        .from("categories")
-        .update({
-            name: cleanName
-        })
-        .eq("id", categoryId);
+    categoryFormMessage.textContent = "";
+    categoryFormMessage.className = "form-message";
 
-    if (error) {
-        console.error(error);
-        showToast(getFriendlyError(error), true);
-        return;
-    }
+    categoryImagePreview.innerHTML = category.image_url
+        ? `<img src="${escapeHtml(category.image_url)}" alt="${escapeHtml(category.name)}">`
+        : "<span>صورة القسم</span>";
 
-    showToast("تم تعديل القسم بنجاح ✅");
+    categoryModalTitle.textContent = "تعديل القسم";
 
-    await loadCategories();
-    await loadProducts();
+    saveCategoryBtn.textContent = "حفظ التعديلات";
+    saveCategoryBtn.disabled = false;
+
+    categoryModal.classList.remove("hidden");
+
+    document.body.style.overflow = "hidden";
 }
 
 
+// =====================================================
+// إغلاق نافذة القسم
+// =====================================================
+
+function closeCategoryModal() {
+
+    categoryModal.classList.add("hidden");
+
+    document.body.style.overflow = "";
+
+    editingCategory = null;
+
+    categoryForm.reset();
+
+    $("categoryId").value = "";
+    $("oldCategoryImageUrl").value = "";
+
+    categoryImagePreview.innerHTML = "<span>صورة القسم</span>";
+
+    categoryFormMessage.textContent = "";
+    categoryFormMessage.className = "form-message";
+}
+
+
+// =====================================================
+// إغلاق النافذة من الأزرار / الخلفية
+// =====================================================
+
+document
+    .querySelectorAll("[data-close-category-modal]")
+    .forEach(element => {
+
+        element.addEventListener(
+            "click",
+            closeCategoryModal
+        );
+
+    });
+
+
+// =====================================================
+// زر إضافة قسم
+// =====================================================
+
+$("addCategoryBtn")?.addEventListener(
+    "click",
+    openAddCategory
+);
+
+
+// =====================================================
+// معاينة صورة القسم
+// =====================================================
+
+categoryImage?.addEventListener("change", () => {
+
+    const file = categoryImage.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+
+        categoryImage.value = "";
+
+        categoryFormMessage.textContent =
+            "اختر ملف صورة فقط.";
+
+        categoryFormMessage.className =
+            "form-message error";
+
+        return;
+    }
+
+    if (file.size > 50 * 1024 * 1024) {
+
+        categoryImage.value = "";
+
+        categoryFormMessage.textContent =
+            "حجم الصورة أكبر من 50MB.";
+
+        categoryFormMessage.className =
+            "form-message error";
+
+        return;
+    }
+
+    categoryFormMessage.textContent = "";
+    categoryFormMessage.className = "form-message";
+
+    const url = URL.createObjectURL(file);
+
+    categoryImagePreview.innerHTML =
+        `<img src="${url}" alt="معاينة صورة القسم">`;
+});
+
+
+// =====================================================
+// حفظ القسم
+// =====================================================
+
+categoryForm?.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    categoryFormMessage.textContent = "";
+    categoryFormMessage.className = "form-message";
+
+    const name = $("categoryName").value.trim();
+
+    const selectedFile =
+        categoryImage.files?.[0] || null;
+
+    if (!name) {
+
+        categoryFormMessage.textContent =
+            "اكتب اسم القسم أولًا.";
+
+        categoryFormMessage.className =
+            "form-message error";
+
+        return;
+    }
+
+    const slug = createCategorySlug(name);
+
+    if (!slug) {
+
+        categoryFormMessage.textContent =
+            "تعذر إنشاء معرّف القسم.";
+
+        categoryFormMessage.className =
+            "form-message error";
+
+        return;
+    }
+
+    // التأكد من عدم تكرار القسم
+    const existing = categories.some(category =>
+        category.slug === slug &&
+        category.id !== editingCategory?.id
+    );
+
+    if (existing) {
+
+        categoryFormMessage.textContent =
+            "هذا القسم موجود بالفعل.";
+
+        categoryFormMessage.className =
+            "form-message error";
+
+        return;
+    }
+
+    // في الإضافة يجب اختيار صورة
+    if (!editingCategory && !selectedFile) {
+
+        categoryFormMessage.textContent =
+            "اختاري صورة للقسم أولًا.";
+
+        categoryFormMessage.className =
+            "form-message error";
+
+        return;
+    }
+
+    saveCategoryBtn.disabled = true;
+
+    saveCategoryBtn.textContent =
+        "جاري الحفظ...";
+
+    let uploadedPath = null;
+
+    try {
+
+        // الاحتفاظ بصورة القسم القديمة عند التعديل
+        let imageUrl =
+            editingCategory?.image_url || "";
+
+        // رفع الصورة الجديدة إذا تم اختيارها
+        if (selectedFile) {
+
+            const jpegBlob =
+                await convertImageToJpeg(selectedFile);
+
+            uploadedPath =
+                `category-${Date.now()}-${crypto.randomUUID().replaceAll("-", "")}.jpg`;
+
+            const {
+                error: uploadError
+            } = await athrSupabase.storage
+                .from(BUCKET)
+                .upload(
+                    uploadedPath,
+                    jpegBlob,
+                    {
+                        cacheControl: "3600",
+                        upsert: false,
+                        contentType: "image/jpeg"
+                    }
+                );
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            const {
+                data: publicUrlData
+            } = athrSupabase.storage
+                .from(BUCKET)
+                .getPublicUrl(uploadedPath);
+
+            imageUrl =
+                publicUrlData.publicUrl;
+        }
+
+        // إذا إضافة جديدة
+        if (!editingCategory) {
+
+            if (!imageUrl) {
+
+                throw new Error(
+                    "يجب اختيار صورة للقسم."
+                );
+            }
+
+            const {
+                error
+            } = await athrSupabase
+                .from("categories")
+                .insert({
+                    name,
+                    slug,
+                    image_url: imageUrl
+                });
+
+            if (error) {
+
+                if (uploadedPath) {
+                    await deleteStoragePath(
+                        uploadedPath
+                    );
+                }
+
+                throw error;
+            }
+
+            showToast(
+                "تمت إضافة القسم بنجاح ✅"
+            );
+
+        }
+
+        // إذا تعديل
+        else {
+
+            const {
+                error
+            } = await athrSupabase
+                .from("categories")
+                .update({
+                    name,
+                    slug,
+                    image_url: imageUrl
+                })
+                .eq("id", editingCategory.id);
+
+            if (error) {
+
+                if (uploadedPath) {
+                    await deleteStoragePath(
+                        uploadedPath
+                    );
+                }
+
+                throw error;
+            }
+
+            // حذف الصورة القديمة بعد نجاح التحديث
+            if (
+                uploadedPath &&
+                editingCategory.image_url
+            ) {
+
+                await deleteStorageImage(
+                    editingCategory.image_url
+                );
+            }
+
+            showToast(
+                "تم تعديل القسم بنجاح ✅"
+            );
+        }
+
+        closeCategoryModal();
+
+        await loadCategories();
+
+        await loadProducts();
+
+    } catch (error) {
+
+        console.error(
+            "Category save error:",
+            error
+        );
+
+        categoryFormMessage.textContent =
+            getFriendlyError(error);
+
+        categoryFormMessage.className =
+            "form-message error";
+
+    } finally {
+
+        saveCategoryBtn.disabled = false;
+
+        saveCategoryBtn.textContent =
+            editingCategory
+                ? "حفظ التعديلات"
+                : "حفظ القسم";
+    }
+
+});
+
+
+// =====================================================
+// حذف القسم
+// =====================================================
+
 async function deleteCategory(categoryId) {
+
     const category = categories.find(
         item => item.id === categoryId
     );
@@ -379,7 +710,10 @@ async function deleteCategory(categoryId) {
     if (!category) return;
 
     // التأكد أولًا من عدم وجود منتجات داخل القسم
-    const { count, error: countError } = await athrSupabase
+    const {
+        count,
+        error: countError
+    } = await athrSupabase
         .from("products")
         .select("id", {
             count: "exact",
@@ -388,16 +722,24 @@ async function deleteCategory(categoryId) {
         .eq("category_id", categoryId);
 
     if (countError) {
+
         console.error(countError);
-        showToast("تعذر التحقق من منتجات هذا القسم.", true);
+
+        showToast(
+            "تعذر التحقق من منتجات هذا القسم.",
+            true
+        );
+
         return;
     }
 
     if (count > 0) {
+
         showToast(
             `لا يمكن حذف قسم "${category.name}" لأنه يحتوي على ${count} منتج. انقل المنتجات إلى قسم آخر أولًا.`,
             true
         );
+
         return;
     }
 
@@ -407,23 +749,45 @@ async function deleteCategory(categoryId) {
 
     if (!confirmed) return;
 
-    const { error } = await athrSupabase
-        .from("categories")
-        .delete()
-        .eq("id", categoryId);
+    try {
 
-    if (error) {
+        const {
+            error
+        } = await athrSupabase
+            .from("categories")
+            .delete()
+            .eq("id", categoryId);
+
+        if (error) {
+            throw error;
+        }
+
+        // حذف صورة القسم من Storage
+        if (category.image_url) {
+
+            await deleteStorageImage(
+                category.image_url
+            );
+        }
+
+        showToast(
+            "تم حذف القسم بنجاح ✅"
+        );
+
+        await loadCategories();
+
+        await loadProducts();
+
+    } catch (error) {
+
         console.error(error);
-        showToast(getFriendlyError(error), true);
-        return;
+
+        showToast(
+            getFriendlyError(error),
+            true
+        );
     }
-
-    showToast("تم حذف القسم بنجاح ✅");
-
-    await loadCategories();
-    await loadProducts();
 }
-
 async function loadProducts() {
     productsLoading.classList.remove("hidden");
     productsEmpty.classList.add("hidden");
