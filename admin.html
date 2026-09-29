@@ -274,6 +274,129 @@
         </div>
     </div>
 
+<!-- CATEGORY MODAL -->
+<div
+    id="categoryModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="categoryModalTitle"
+>
+    <div class="modal-backdrop" data-close-category-modal></div>
+
+    <div class="modal-card">
+
+        <button
+            class="modal-close"
+            type="button"
+            data-close-category-modal
+            aria-label="إغلاق"
+        >
+            ×
+        </button>
+
+        <div class="modal-heading">
+            <span class="eyebrow">ATHR CATEGORY</span>
+
+            <h2 id="categoryModalTitle">
+                إضافة قسم
+            </h2>
+
+            <p>
+                أضف اسم القسم وصورته ليظهر بشكل جميل في المتجر.
+            </p>
+        </div>
+
+        <form id="categoryForm" class="product-form">
+
+            <!-- CATEGORY IMAGE -->
+            <div class="image-upload">
+
+                <div
+                    id="categoryImagePreview"
+                    class="image-preview"
+                >
+                    <span>صورة القسم</span>
+                </div>
+
+                <div class="upload-controls">
+
+                    <label
+                        class="upload-btn"
+                        for="categoryImage"
+                    >
+                        📷 اختيار صورة القسم
+                    </label>
+
+                    <input
+                        id="categoryImage"
+                        type="file"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        JPG / PNG / WEBP — يفضّل صورة مربعة وواضحة للقسم.
+                    </small>
+
+                </div>
+
+            </div>
+
+            <!-- CATEGORY NAME -->
+            <label>
+                اسم القسم
+
+                <input
+                    id="categoryName"
+                    type="text"
+                    placeholder="مثال: المجات"
+                    required
+                >
+            </label>
+
+            <!-- HIDDEN VALUES -->
+            <input
+                type="hidden"
+                id="categoryId"
+            >
+
+            <input
+                type="hidden"
+                id="oldCategoryImageUrl"
+            >
+
+            <!-- MESSAGE -->
+            <div
+                id="categoryFormMessage"
+                class="form-message"
+            ></div>
+
+            <!-- ACTIONS -->
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-btn"
+                    data-close-category-modal
+                >
+                    إلغاء
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                    id="saveCategoryBtn"
+                >
+                    حفظ القسم
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-config.js"></script>
     <script src="admin/js/admin.js"></script>
