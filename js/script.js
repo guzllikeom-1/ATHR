@@ -59,7 +59,7 @@ async function loadSearchProducts(){
 function renderSearchResults(q){const box=document.getElementById("searchResults");if(!box)return;const term=(q||"").trim().toLowerCase();if(!term){box.innerHTML="";return}const rows=(athrSearchProducts||[]).filter(p=>(p.name||"").toLowerCase().includes(term)||(p.category?.name||"").toLowerCase().includes(term)).slice(0,8);box.innerHTML=rows.length?rows.map(p=>`<a class="search-result" href="product.html?id=${encodeURIComponent(p.id)}"><img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}"><span><strong>${escapeHtml(p.name)}</strong><small>${Number(p.price).toFixed(3)} ر.ع</small></span></a>`).join(""):`<div class="search-empty">لا توجد منتجات مطابقة للبحث.</div>`}
 
 async function fetchProducts(){
-  const {data,error}=await athrSupabase
+  const { data, error } = await athrSupabase
     .from("products")
     .select(`
       id,
@@ -69,30 +69,32 @@ async function fetchProducts(){
       image_url,
       is_best_seller,
       is_new_arrival,
+      is_available,
       created_at,
       category:categories(id,name,slug)
     `)
-    .order("created_at",{ascending:false});
+    .order("created_at", { ascending: false });
 
-  if(error)throw error;
+  if (error) throw error;
 
-  return data||[];
+  return data || [];
 }
 function renderProductCards(
   container,
   products,
-  empty="لا توجد منتجات حاليًا."
+  empty = "لا توجد منتجات حاليًا."
 ){
-  if(!container)return;
+  if(!container) return;
 
   if(!products.length){
     container.innerHTML =
       `<div class="shop-state">${empty}</div>`;
-
     return;
   }
 
   container.innerHTML = products.map(p => {
+
+    const isAvailable = p.is_available !== false;
 
     const hasDiscount =
       p.old_price !== null &&
@@ -101,46 +103,83 @@ function renderProductCards(
 
     const priceHtml = hasDiscount
       ? `
-          <div class="athr-product-price-wrap">
+        <div
+          class="athr-product-price-wrap"
+          style="
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+            gap:2px;
+          "
+        >
+          <span
+            class="athr-product-old-price"
+            style="
+              text-decoration:line-through;
+              opacity:.55;
+              font-size:.88em;
+            "
+          >
+            ${Number(p.old_price).toFixed(3)} ر.ع
+          </span>
 
-            <span
-              class="athr-product-old-price"
-              style="
-                text-decoration: line-through;
-                opacity: .55;
-                font-size: .88em;
-                margin-left: 8px;
-              "
-            >
-              ${Number(p.old_price).toFixed(3)} ر.ع
-            </span>
-
-            <span
-              class="athr-product-price athr-product-sale-price"
-            >
-              ${Number(p.price).toFixed(3)} ر.ع
-            </span>
-
-          </div>
-        `
-      : `
-          <span class="athr-product-price">
+          <span class="athr-product-price athr-product-sale-price">
             ${Number(p.price).toFixed(3)} ر.ع
           </span>
-        `;
+        </div>
+      `
+      : `
+        <span class="athr-product-price">
+          ${Number(p.price).toFixed(3)} ر.ع
+        </span>
+      `;
+
+    const unavailableOverlay = !isAvailable
+      ? `
+        <span
+          class="athr-product-unavailable"
+          style="
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            z-index:3;
+            background:#fff;
+            color:#111;
+            padding:10px 28px;
+            border-radius:16px;
+            font-size:20px;
+            font-weight:700;
+            white-space:nowrap;
+            box-shadow:0 6px 20px rgba(0,0,0,.12);
+          "
+        >
+          غير متوفر
+        </span>
+      `
+      : "";
 
     return `
-      <article class="athr-product-card">
+      <article
+        class="athr-product-card"
+        style="${!isAvailable ? "opacity:.9;" : ""}"
+      >
 
         <a
           href="product.html?id=${encodeURIComponent(p.id)}"
           class="athr-product-image"
+          style="position:relative;"
         >
+
           <img
             src="${escapeHtml(p.image_url)}"
             alt="${escapeHtml(p.name)}"
             loading="lazy"
+            style="${!isAvailable ? "opacity:.62;" : ""}"
           >
+
+          ${unavailableOverlay}
+
         </a>
 
         <div class="athr-product-info">
@@ -163,13 +202,32 @@ function renderProductCards(
 
             ${priceHtml}
 
-            <button
-              type="button"
-              class="athr-add-cart"
-              data-id="${escapeHtml(p.id)}"
-            >
-              أضف للسلة
-            </button>
+            ${
+              isAvailable
+                ? `
+                  <button
+                    type="button"
+                    class="athr-add-cart"
+                    data-id="${escapeHtml(p.id)}"
+                  >
+                    أضف للسلة
+                  </button>
+                `
+                : `
+                  <button
+                    type="button"
+                    class="athr-add-cart"
+                    disabled
+                    aria-disabled="true"
+                    style="
+                      opacity:.5;
+                      cursor:not-allowed;
+                    "
+                  >
+                    أضف للسلة
+                  </button>
+                `
+            }
 
           </div>
 
@@ -181,7 +239,7 @@ function renderProductCards(
   }).join("");
 
   container
-    .querySelectorAll(".athr-add-cart")
+    .querySelectorAll(".athr-add-cart:not([disabled])")
     .forEach(button => {
 
       button.onclick = () => {
