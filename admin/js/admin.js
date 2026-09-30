@@ -1227,6 +1227,165 @@ async function convertImageToJpeg(file) {
     });
 }
 
+// =====================================================
+// رفع صور وفيديوهات المنتج إلى Supabase Storage
+// =====================================================
+
+async function uploadProductMediaFile(file, mediaType) {
+
+    if (!file) {
+        throw new Error("ملف الوسائط غير موجود.");
+    }
+
+    let uploadBlob = file;
+    let extension = "";
+
+    // الصور: نحولها إلى JPG مثل الصورة الرئيسية
+    if (mediaType === "image") {
+
+        uploadBlob = await convertImageToJpeg(file);
+        extension = "jpg";
+
+    }
+
+    // الفيديو: نرفعه بصيغته الأصلية
+    else if (mediaType === "video") {
+
+        const originalExtension =
+            file.name.split(".").pop()?.toLowerCase() || "mp4";
+
+        extension = originalExtension;
+
+    }
+
+    const uploadedPath =
+        `media-${Date.now()}-${crypto.randomUUID().replaceAll("-", "")}.${extension}`;
+
+    const { error: uploadError } =
+        await athrSupabase.storage
+            .from(BUCKET)
+            .upload(
+                uploadedPath,
+                uploadBlob,
+                {
+                    cacheControl: "3600",
+                    upsert: false,
+                    contentType:
+                        mediaType === "image"
+                            ? "image/jpeg"
+                            : file.type
+                }
+            );
+
+    if (uploadError) {
+        throw uploadError;
+    }
+
+    const { data: publicUrlData } =
+        athrSupabase.storage
+            .from(BUCKET)
+            .getPublicUrl(uploadedPath);
+
+    return {
+        path: uploadedPath,
+        url: publicUrlData.publicUrl,
+        type: mediaType
+    };
+}
+
+// =====================================================
+// حفظ روابط صور وفيديوهات المنتج في product_media
+// =====================================================
+
+async function saveProductMedia(
+    productId,
+    imageFiles = [],
+    videoFile = null
+) {
+
+    const uploadedFiles = [];
+
+    try {
+
+        const mediaRows = [];
+
+        // =========================
+        // الصور الإضافية
+        // =========================
+
+        for (let index = 0; index < imageFiles.length; index++) {
+
+            const file = imageFiles[index];
+
+            const uploaded =
+                await uploadProductMediaFile(
+                    file,
+                    "image"
+                );
+
+            uploadedFiles.push(uploaded.path);
+
+            mediaRows.push({
+                product_id: productId,
+                media_type: "image",
+                media_url: uploaded.url,
+                sort_order: index
+            });
+        }
+
+        // =========================
+        // الفيديو
+        // =========================
+
+        if (videoFile) {
+
+            const uploaded =
+                await uploadProductMediaFile(
+                    videoFile,
+                    "video"
+                );
+
+            uploadedFiles.push(uploaded.path);
+
+            mediaRows.push({
+                product_id: productId,
+                media_type: "video",
+                media_url: uploaded.url,
+                sort_order: imageFiles.length
+            });
+        }
+
+        // لا توجد وسائط جديدة
+        if (!mediaRows.length) {
+            return;
+        }
+
+        // =========================
+        // حفظها في قاعدة البيانات
+        // =========================
+
+        const { error } =
+            await athrSupabase
+                .from("product_media")
+                .insert(mediaRows);
+
+        if (error) {
+            throw error;
+        }
+
+    } catch (error) {
+
+        // تنظيف الملفات التي تم رفعها
+        // إذا فشل حفظها في قاعدة البيانات
+
+        for (const path of uploadedFiles) {
+            await deleteStoragePath(path);
+        }
+
+        throw error;
+    }
+}
+
 productForm.addEventListener("submit", async event => {
     event.preventDefault();
     formMessage.textContent = "";
@@ -1250,6 +1409,12 @@ const categoryId =
 const isNewArrival = $("isNewArrival").checked;
 const isAvailable = $("isAvailable").checked;
 const selectedFile = productImage.files?.[0] || null;
+
+   const extraImageFiles =
+    Array.from(productExtraImages?.files || []);
+
+const videoFile =
+    productVideo?.files?.[0] || null;
 
     if (!name || !Number.isFinite(price) || price < 0 || !categoryId) {
         formMessage.textContent = "تأكد من إدخال الاسم والسعر والقسم بشكل صحيح.";
@@ -1336,23 +1501,64 @@ is_available: isAvailable
 
             if (error) throw error;
 
+           await saveProductMedia(
+    editingProduct.id,
+    extraImageFiles,
+    videoFile
+);
+
             if (uploadedPath && editingProduct.image_url) {
                 await deleteStorageImage(editingProduct.image_url);
             }
 
             showToast("تم تحديث المنتج بنجاح ✅");
-        } else {
-            const { error } = await athrSupabase
-                .from("products")
-                .insert(payload);
+       } else {
 
-            if (error) {
-                if (uploadedPath) await deleteStoragePath(uploadedPath);
-                throw error;
-            }
+    const {
+        data: newProduct,
+        error
+    } = await athrSupabase
+        .from("products")
+        .insert(payload)
+        .select("id")
+        .single();
 
-            showToast("تمت إضافة المنتج بنجاح ✅");
+    if (error) {
+
+        if (uploadedPath) {
+            await deleteStoragePath(uploadedPath);
         }
+
+        throw error;
+    }
+
+    try {
+
+        await saveProductMedia(
+            newProduct.id,
+            extraImageFiles,
+            videoFile
+        );
+
+    } catch (mediaError) {
+
+        // إذا فشل حفظ الوسائط، نحذف المنتج الجديد
+        await athrSupabase
+            .from("products")
+            .delete()
+            .eq("id", newProduct.id);
+
+        if (uploadedPath) {
+            await deleteStoragePath(uploadedPath);
+        }
+
+        throw mediaError;
+    }
+
+    showToast(
+        "تمت إضافة المنتج والوسائط بنجاح ✅"
+    );
+}
 
         closeModal();
         await loadProducts();
