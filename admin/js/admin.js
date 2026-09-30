@@ -1157,11 +1157,7 @@ if (
     is_best_seller: isBestSeller,
     is_new_arrival: isNewArrival
 };
-            category_id: categoryId,
-            image_url: imageUrl,
-            is_best_seller: isBestSeller,
-            is_new_arrival: isNewArrival
-        };
+          
 
         if (editingProduct) {
             const { error } = await athrSupabase
@@ -1299,7 +1295,7 @@ document.querySelectorAll(".side-link").forEach(button => {
     });
 });
 
-$("addCategoryBtn")?.addEventListener("click", addCategory);
+$("addCategoryBtn")?.addEventListener("click", openAddCategory);
 
 
 initAdmin();
