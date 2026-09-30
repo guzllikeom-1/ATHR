@@ -235,16 +235,46 @@
                     </div>
                 </div>
 
-                <div class="form-two-cols">
-                    <label>
-                        اسم المنتج
-                        <input id="productName" type="text" placeholder="مثال: كوب نادي السيب" required>
-                    </label>
-                    <label>
-                        السعر (ر.ع)
-                        <input id="productPrice" type="number" min="0" step="0.001" placeholder="3.500" required>
-                    </label>
-                </div>
+               <div class="form-two-cols">
+
+    <label>
+        اسم المنتج
+        <input
+            id="productName"
+            type="text"
+            placeholder="مثال: كوب نادي السيب"
+            required
+        >
+    </label>
+
+    <label>
+        السعر الحالي (ر.ع)
+        <input
+            id="productPrice"
+            type="number"
+            min="0"
+            step="0.001"
+            placeholder="2.500"
+            required
+        >
+    </label>
+
+</div>
+
+<label>
+    السعر قبل الخصم (ر.ع)
+    <input
+        id="productOldPrice"
+        type="number"
+        min="0"
+        step="0.001"
+        placeholder="مثال: 3.500"
+    >
+
+    <small>
+        اتركيه فارغًا إذا كان المنتج بدون خصم.
+    </small>
+</label>
 
                 <label>
                     القسم
