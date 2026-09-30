@@ -799,6 +799,7 @@ async function loadProducts() {
             id,
             name,
             price,
+            old_price,
             image_url,
             is_best_seller,
             is_new_arrival,
@@ -867,7 +868,29 @@ function renderProducts() {
                     </div>
                 </td>
                 <td>${escapeHtml(product.category?.name || "—")}</td>
-                <td><strong>${Number(product.price).toFixed(3)} ر.ع</strong></td>
+                <td><strong>${Number(<td>
+    ${
+        product.old_price !== null &&
+        product.old_price !== undefined &&
+        Number(product.old_price) > Number(product.price)
+            ? `
+                <div>
+                    <del style="opacity:.55">
+                        ${Number(product.old_price).toFixed(3)} ر.ع
+                    </del>
+
+                    <strong style="display:block">
+                        ${Number(product.price).toFixed(3)} ر.ع
+                    </strong>
+                </div>
+            `
+            : `
+                <strong>
+                    ${Number(product.price).toFixed(3)} ر.ع
+                </strong>
+            `
+    }
+</td>product.price).toFixed(3)} ر.ع</strong></td>
                 <td><div class="badges">${badges || '<span class="badge">المتجر</span>'}</div></td>
                 <td>${date}</td>
                 <td>
@@ -913,9 +936,19 @@ function openEditProduct(productId) {
     editingProduct = product;
     $("productId").value = product.id;
     $("oldImageUrl").value = product.image_url || "";
-    $("productName").value = product.name || "";
-    $("productPrice").value = Number(product.price).toFixed(3);
-    $("productCategory").value = product.category?.id || "";
+   $("productName").value = product.name || "";
+
+$("productPrice").value =
+    Number(product.price).toFixed(3);
+
+$("productOldPrice").value =
+    product.old_price !== null &&
+    product.old_price !== undefined
+        ? Number(product.old_price).toFixed(3)
+        : "";
+
+$("productCategory").value =
+    product.category?.id || "";
     $("isBestSeller").checked = !!product.is_best_seller;
     $("isNewArrival").checked = !!product.is_new_arrival;
     productImage.value = "";
@@ -1030,9 +1063,21 @@ productForm.addEventListener("submit", async event => {
     event.preventDefault();
     formMessage.textContent = "";
 
-    const name = $("productName").value.trim();
-    const price = Number($("productPrice").value);
-    const categoryId = $("productCategory").value;
+   const name = $("productName").value.trim();
+
+const price =
+    Number($("productPrice").value);
+
+const oldPriceValue =
+    $("productOldPrice").value.trim();
+
+const oldPrice =
+    oldPriceValue === ""
+        ? null
+        : Number(oldPriceValue);
+
+const categoryId =
+    $("productCategory").value;
     const isBestSeller = $("isBestSeller").checked;
     const isNewArrival = $("isNewArrival").checked;
     const selectedFile = productImage.files?.[0] || null;
@@ -1042,6 +1087,27 @@ productForm.addEventListener("submit", async event => {
         return;
     }
 
+if (
+    oldPrice !== null &&
+    (
+        !Number.isFinite(oldPrice) ||
+        oldPrice < 0
+    )
+) {
+    formMessage.textContent =
+        "السعر قبل الخصم غير صحيح.";
+    return;
+}
+
+if (
+    oldPrice !== null &&
+    oldPrice <= price
+) {
+    formMessage.textContent =
+        "السعر قبل الخصم يجب أن يكون أكبر من السعر الحالي.";
+    return;
+}
+   
     setLoading(saveProductBtn, true, editingProduct ? "حفظ التعديلات" : "حفظ المنتج");
 
     try {
@@ -1074,9 +1140,22 @@ productForm.addEventListener("submit", async event => {
             return;
         }
 
-        const payload = {
-            name,
-            price: Number(price.toFixed(3)),
+       const payload = {
+    name,
+
+    price:
+        Number(price.toFixed(3)),
+
+    old_price:
+        oldPrice === null
+            ? null
+            : Number(oldPrice.toFixed(3)),
+
+    category_id: categoryId,
+    image_url: imageUrl,
+    is_best_seller: isBestSeller,
+    is_new_arrival: isNewArrival
+};
             category_id: categoryId,
             image_url: imageUrl,
             is_best_seller: isBestSeller,
