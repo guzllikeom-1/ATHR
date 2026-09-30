@@ -804,6 +804,7 @@ async function loadProducts() {
             image_url,
             is_best_seller,
             is_new_arrival,
+            is_available,
             created_at,
             category:categories (id, name, slug)
         `)
@@ -950,8 +951,9 @@ $("productOldPrice").value =
 
 $("productCategory").value =
     product.category?.id || "";
-    $("isBestSeller").checked = !!product.is_best_seller;
-    $("isNewArrival").checked = !!product.is_new_arrival;
+   $("isBestSeller").checked = !!product.is_best_seller;
+$("isNewArrival").checked = !!product.is_new_arrival;
+$("isAvailable").checked = product.is_available !== false;
     productImage.value = "";
     imagePreview.innerHTML = product.image_url
         ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}">`
@@ -1079,9 +1081,10 @@ const oldPrice =
 
 const categoryId =
     $("productCategory").value;
-    const isBestSeller = $("isBestSeller").checked;
-    const isNewArrival = $("isNewArrival").checked;
-    const selectedFile = productImage.files?.[0] || null;
+   const isBestSeller = $("isBestSeller").checked;
+const isNewArrival = $("isNewArrival").checked;
+const isAvailable = $("isAvailable").checked;
+const selectedFile = productImage.files?.[0] || null;
 
     if (!name || !Number.isFinite(price) || price < 0 || !categoryId) {
         formMessage.textContent = "تأكد من إدخال الاسم والسعر والقسم بشكل صحيح.";
@@ -1154,8 +1157,9 @@ if (
 
     category_id: categoryId,
     image_url: imageUrl,
-    is_best_seller: isBestSeller,
-    is_new_arrival: isNewArrival
+   is_best_seller: isBestSeller,
+is_new_arrival: isNewArrival,
+is_available: isAvailable
 };
           
 
