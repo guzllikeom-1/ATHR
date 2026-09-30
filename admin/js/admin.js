@@ -890,7 +890,8 @@ function renderProducts() {
                 </strong>
             `
     }
-</td>product.price).toFixed(3)} ر.ع</strong></td>
+</td>
+
                 <td><div class="badges">${badges || '<span class="badge">المتجر</span>'}</div></td>
                 <td>${date}</td>
                 <td>
