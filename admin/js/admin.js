@@ -32,6 +32,11 @@ const productSearch = $("productSearch");
 const categoryFilter = $("categoryFilter");
 const productImage = $("productImage");
 const imagePreview = $("imagePreview");
+
+const productExtraImages = $("productExtraImages");
+const productVideo = $("productVideo");
+const productMediaPreview = $("productMediaPreview");
+
 const formMessage = $("formMessage");
 const saveProductBtn = $("saveProductBtn");
 
@@ -996,6 +1001,166 @@ productImage.addEventListener("change", () => {
     const url = URL.createObjectURL(file);
     imagePreview.innerHTML = `<img src="${url}" alt="معاينة الصورة">`;
 });
+
+// =====================================================
+// معاينة الصور الإضافية والفيديو
+// =====================================================
+
+function renderSelectedMediaPreview() {
+
+    if (!productMediaPreview) return;
+
+    const images = Array.from(
+        productExtraImages?.files || []
+    );
+
+    const video = productVideo?.files?.[0] || null;
+
+    if (!images.length && !video) {
+        productMediaPreview.innerHTML = "";
+        return;
+    }
+
+    let html = "";
+
+    images.forEach((file, index) => {
+
+        if (!file.type.startsWith("image/")) return;
+
+        const url = URL.createObjectURL(file);
+
+        html += `
+            <div class="selected-media-item">
+                <img
+                    src="${url}"
+                    alt="صورة إضافية ${index + 1}"
+                >
+
+                <span>
+                    صورة ${index + 1}
+                </span>
+            </div>
+        `;
+    });
+
+    if (video) {
+
+        if (!video.type.startsWith("video/")) {
+            formMessage.textContent =
+                "اختاري ملف فيديو صحيح.";
+        } else {
+
+            const videoUrl =
+                URL.createObjectURL(video);
+
+            html += `
+                <div class="selected-media-item">
+
+                    <video
+                        src="${videoUrl}"
+                        controls
+                        muted
+                        playsinline
+                    ></video>
+
+                    <span>
+                        🎥 فيديو المنتج
+                    </span>
+
+                </div>
+            `;
+        }
+    }
+
+    productMediaPreview.innerHTML = html;
+}
+
+
+// الصور الإضافية
+productExtraImages?.addEventListener(
+    "change",
+    () => {
+
+        formMessage.textContent = "";
+
+        const files =
+            Array.from(productExtraImages.files || []);
+
+        const invalidFile =
+            files.find(
+                file => !file.type.startsWith("image/")
+            );
+
+        if (invalidFile) {
+
+            productExtraImages.value = "";
+
+            formMessage.textContent =
+                "يمكن اختيار الصور فقط في هذا الحقل.";
+
+            return;
+        }
+
+        const oversizedFile =
+            files.find(
+                file => file.size > 50 * 1024 * 1024
+            );
+
+        if (oversizedFile) {
+
+            productExtraImages.value = "";
+
+            formMessage.textContent =
+                "إحدى الصور أكبر من 50MB.";
+
+            return;
+        }
+
+        renderSelectedMediaPreview();
+    }
+);
+
+
+// الفيديو
+productVideo?.addEventListener(
+    "change",
+    () => {
+
+        formMessage.textContent = "";
+
+        const file =
+            productVideo.files?.[0];
+
+        if (!file) {
+
+            renderSelectedMediaPreview();
+
+            return;
+        }
+
+        if (!file.type.startsWith("video/")) {
+
+            productVideo.value = "";
+
+            formMessage.textContent =
+                "اختاري ملف فيديو فقط.";
+
+            return;
+        }
+
+        if (file.size > 100 * 1024 * 1024) {
+
+            productVideo.value = "";
+
+            formMessage.textContent =
+                "حجم الفيديو أكبر من 100MB.";
+
+            return;
+        }
+
+        renderSelectedMediaPreview();
+    }
+);
 
 async function convertImageToJpeg(file) {
     return new Promise((resolve, reject) => {
