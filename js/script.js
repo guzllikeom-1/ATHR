@@ -541,7 +541,399 @@ const categoryMeta={
 };
 async function loadCategoriesPage(){const box=document.getElementById("categoriesSections");if(!box)return;try{const products=await fetchProducts();const slugs=Object.keys(categoryMeta);document.getElementById("categoryIndex").innerHTML=slugs.map(s=>`<a href="#cat-${s}" class="category-index-card"><span>${categoryMeta[s].title}</span></a>`).join("");box.innerHTML=slugs.map(s=>{const rows=products.filter(p=>p.category?.slug===s);return `<section class="category-section" id="cat-${s}"><div class="category-title"><h2>${categoryMeta[s].title}</h2><p>${categoryMeta[s].desc}</p></div><div class="page-products-grid" id="grid-${s}"></div></section>`}).join("");slugs.forEach(s=>renderProductCards(document.getElementById(`grid-${s}`),products.filter(p=>p.category?.slug===s),"لا توجد منتجات في هذا القسم حاليًا."))}catch(e){console.error(e);box.innerHTML='<div class="shop-state">تعذر تحميل الأقسام حاليًا.</div>'}}
 
-async function loadProductPage(){const box=document.getElementById("productDetail");if(!box)return;const id=new URLSearchParams(location.search).get("id");if(!id){box.innerHTML='<div class="shop-state">المنتج غير موجود.</div>';return}try{const {data,error}=await athrSupabase.from("products").select(`id,name,price,image_url,category:categories(name,slug)`).eq("id",id).maybeSingle();if(error)throw error;if(!data){box.innerHTML='<div class="shop-state">المنتج غير موجود.</div>';return}box.innerHTML=`<div class="product-detail-image"><img src="${escapeHtml(data.image_url)}" alt="${escapeHtml(data.name)}"></div><div class="product-detail-info"><span class="category-label">${escapeHtml(data.category?.name||'أثر')}</span><h1>${escapeHtml(data.name)}</h1><div class="detail-price">${Number(data.price).toFixed(3)} ر.ع</div><p class="detail-note">منتج من تشكيلتنا في متجر أثر. اختره وأضفه إلى السلة لإكمال طلبك.</p><button class="primary-large" id="detailAdd">أضف للسلة</button></div>`;document.getElementById("detailAdd").onclick=()=>addAthrProductToCart(data);document.title=`${data.name} | أثر`}catch(e){console.error(e);box.innerHTML='<div class="shop-state">تعذر تحميل المنتج حاليًا.</div>'}}
+async function loadProductPage(){
+
+  const box = document.getElementById("productDetail");
+
+  if(!box) return;
+
+  const id =
+    new URLSearchParams(location.search).get("id");
+
+  if(!id){
+
+    box.innerHTML =
+      '<div class="shop-state">المنتج غير موجود.</div>';
+
+    return;
+  }
+
+  try{
+
+    // =====================================================
+    // جلب بيانات المنتج
+    // =====================================================
+
+    const {
+      data,
+      error
+    } = await athrSupabase
+      .from("products")
+      .select(`
+        id,
+        name,
+        price,
+        old_price,
+        image_url,
+        is_available,
+        category:categories(name,slug)
+      `)
+      .eq("id", id)
+      .maybeSingle();
+
+    if(error) throw error;
+
+    if(!data){
+
+      box.innerHTML =
+        '<div class="shop-state">المنتج غير موجود.</div>';
+
+      return;
+    }
+
+
+    // =====================================================
+    // جلب الصور والفيديوهات
+    // =====================================================
+
+    const {
+      data: mediaRows,
+      error: mediaError
+    } = await athrSupabase
+      .from("product_media")
+      .select(`
+        id,
+        media_type,
+        media_url,
+        sort_order,
+        created_at
+      `)
+      .eq("product_id", id)
+      .order("sort_order", { ascending:true })
+      .order("created_at", { ascending:true });
+
+    if(mediaError) throw mediaError;
+
+
+    const media =
+      Array.isArray(mediaRows)
+        ? mediaRows
+        : [];
+
+
+    // =====================================================
+    // حالة المنتج
+    // =====================================================
+
+    const isAvailable =
+      data.is_available !== false;
+
+
+    // =====================================================
+    // الخصم
+    // =====================================================
+
+    const hasDiscount =
+      data.old_price !== null &&
+      data.old_price !== undefined &&
+      Number(data.old_price) > Number(data.price);
+
+
+    const priceHtml = hasDiscount
+
+      ? `
+        <div class="athr-detail-price-wrap">
+
+          <span class="athr-detail-old-price">
+            ${Number(data.old_price).toFixed(3)} ر.ع
+          </span>
+
+          <span class="athr-detail-sale-price">
+            ${Number(data.price).toFixed(3)} ر.ع
+          </span>
+
+        </div>
+      `
+
+      : `
+        <div class="detail-price">
+          ${Number(data.price).toFixed(3)} ر.ع
+        </div>
+      `;
+
+
+    // =====================================================
+    // تجهيز جميع الوسائط
+    // الصورة الرئيسية أولًا
+    // =====================================================
+
+    const galleryItems = [
+
+      {
+        id: "main-image",
+        type: "image",
+        url: data.image_url
+      },
+
+      ...media.map(item => ({
+        id: item.id,
+        type: item.media_type,
+        url: item.media_url
+      }))
+
+    ];
+
+
+    // =====================================================
+    // المعرض الرئيسي
+    // =====================================================
+
+    const firstMedia =
+      galleryItems[0];
+
+
+    const renderMainMedia = item => {
+
+      if(!item) return "";
+
+      if(item.type === "video"){
+
+        return `
+          <video
+            class="product-gallery-main-video"
+            src="${escapeHtml(item.url)}"
+            controls
+            playsinline
+            preload="metadata"
+          ></video>
+        `;
+
+      }
+
+      return `
+        <img
+          src="${escapeHtml(item.url)}"
+          alt="${escapeHtml(data.name)}"
+        >
+      `;
+
+    };
+
+
+    // =====================================================
+    // الصور المصغرة
+    // =====================================================
+
+    const thumbnailsHtml =
+      galleryItems.length > 1
+
+        ? `
+          <div class="product-gallery-thumbs">
+
+            ${galleryItems.map((item,index) => `
+
+              <button
+                type="button"
+                class="product-gallery-thumb ${index === 0 ? "active" : ""}"
+                data-gallery-index="${index}"
+                aria-label="عرض الوسائط ${index + 1}"
+              >
+
+                ${
+                  item.type === "video"
+
+                    ? `
+                      <span class="product-gallery-video-thumb">
+                        ▶
+                      </span>
+                    `
+
+                    : `
+                      <img
+                        src="${escapeHtml(item.url)}"
+                        alt=""
+                        loading="lazy"
+                      >
+                    `
+                }
+
+              </button>
+
+            `).join("")}
+
+          </div>
+        `
+
+        : "";
+
+
+    // =====================================================
+    // حالة عدم التوفر
+    // =====================================================
+
+    const unavailableHtml =
+      !isAvailable
+
+        ? `
+          <div class="product-detail-unavailable">
+            غير متوفر
+          </div>
+        `
+
+        : "";
+
+
+    // =====================================================
+    // بناء صفحة المنتج
+    // =====================================================
+
+    box.innerHTML = `
+
+      <div class="product-detail-gallery">
+
+        <div
+          class="product-gallery-main"
+          id="productGalleryMain"
+        >
+
+          ${renderMainMedia(firstMedia)}
+
+          ${unavailableHtml}
+
+        </div>
+
+        ${thumbnailsHtml}
+
+      </div>
+
+
+      <div class="product-detail-info">
+
+        <span class="category-label">
+          ${escapeHtml(data.category?.name || "أثر")}
+        </span>
+
+        <h1>
+          ${escapeHtml(data.name)}
+        </h1>
+
+        ${priceHtml}
+
+        <p class="detail-note">
+          منتج من تشكيلتنا في متجر أثر.
+          اختره وأضفه إلى السلة لإكمال طلبك.
+        </p>
+
+        ${
+          isAvailable
+
+            ? `
+              <button
+                class="primary-large"
+                id="detailAdd"
+                type="button"
+              >
+                أضف للسلة
+              </button>
+            `
+
+            : `
+              <button
+                class="primary-large product-detail-disabled"
+                type="button"
+                disabled
+              >
+                غير متوفر
+              </button>
+            `
+        }
+
+      </div>
+
+    `;
+
+
+    // =====================================================
+    // تغيير الصورة / الفيديو عند الضغط على thumbnail
+    // =====================================================
+
+    const mainBox =
+      document.getElementById("productGalleryMain");
+
+
+    box
+      .querySelectorAll(".product-gallery-thumb")
+      .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+          const index =
+            Number(button.dataset.galleryIndex);
+
+          const selected =
+            galleryItems[index];
+
+          if(!selected) return;
+
+
+          // تحديث الوسيط الرئيسي
+
+          mainBox.innerHTML =
+            renderMainMedia(selected) +
+            unavailableHtml;
+
+
+          // تحديث الحالة النشطة
+
+          box
+            .querySelectorAll(".product-gallery-thumb")
+            .forEach(item =>
+              item.classList.remove("active")
+            );
+
+          button.classList.add("active");
+
+        });
+
+      });
+
+
+    // =====================================================
+    // زر إضافة للسلة
+    // =====================================================
+
+    if(isAvailable){
+
+      const addButton =
+        document.getElementById("detailAdd");
+
+      if(addButton){
+
+        addButton.onclick = () =>
+          addAthrProductToCart(data);
+
+      }
+
+    }
+
+
+    document.title =
+      `${data.name} | أثر`;
+
+
+  }catch(error){
+
+    console.error(
+      "Product page error:",
+      error
+    );
+
+    box.innerHTML =
+      '<div class="shop-state">تعذر تحميل المنتج حاليًا.</div>';
+
+  }
+
+}
 
 function getCart(){try{return JSON.parse(localStorage.getItem("athr_cart")||"[]")}catch{return []}}
 function saveCart(c){localStorage.setItem("athr_cart",JSON.stringify(c));updateAthrCartCount()}
