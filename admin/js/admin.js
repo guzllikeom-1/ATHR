@@ -22,6 +22,7 @@ const categoryImage = $("categoryImage");
 const categoryImagePreview = $("categoryImagePreview");
 const categoryFormMessage = $("categoryFormMessage");
 const saveCategoryBtn = $("saveCategoryBtn");
+const categoryModalTitle = $("categoryModalTitle");
 const productForm = $("productForm");
 const productsTableBody = $("productsTableBody");
 const productsLoading = $("productsLoading");
@@ -868,7 +869,7 @@ function renderProducts() {
                     </div>
                 </td>
                 <td>${escapeHtml(product.category?.name || "—")}</td>
-                <td><strong>${Number(<td>
+              <td>
     ${
         product.old_price !== null &&
         product.old_price !== undefined &&
@@ -891,7 +892,6 @@ function renderProducts() {
             `
     }
 </td>
-
                 <td><div class="badges">${badges || '<span class="badge">المتجر</span>'}</div></td>
                 <td>${date}</td>
                 <td>
@@ -1141,7 +1141,7 @@ if (
             return;
         }
 
-       const payload = {
+    const payload = {
     name,
 
     price:
