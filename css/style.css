@@ -4275,3 +4275,180 @@ button{font-family:inherit}
         max-height: 24px !important;
     }
 }
+/* =====================================================
+   ATHR PRODUCT GALLERY
+   صور متعددة + فيديو المنتج
+===================================================== */
+
+.product-detail-gallery{
+  width:100%;
+  min-width:0;
+}
+
+.product-gallery-main{
+  position:relative;
+  width:100%;
+  aspect-ratio:1 / 1;
+  background:#F4EEE8;
+  border-radius:22px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.product-gallery-main img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.product-gallery-main video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  background:#111;
+}
+
+.product-gallery-main-video{
+  cursor:pointer;
+}
+
+.product-gallery-thumbs{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+  overflow-x:auto;
+  padding:3px 2px 8px;
+  scrollbar-width:thin;
+}
+
+.product-gallery-thumb{
+  position:relative;
+  flex:0 0 76px;
+  width:76px;
+  height:76px;
+  padding:0;
+  border:2px solid transparent;
+  border-radius:12px;
+  overflow:hidden;
+  background:#F4EEE8;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.product-gallery-thumb:hover{
+  transform:translateY(-2px);
+}
+
+.product-gallery-thumb.active{
+  border-color:#8B1717;
+}
+
+.product-gallery-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.product-gallery-video-thumb{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#5E0D0D;
+  color:#fff;
+  font-size:24px;
+}
+
+.product-detail-unavailable{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:5;
+
+  background:#fff;
+  color:#111;
+
+  padding:11px 30px;
+
+  border-radius:16px;
+
+  font-size:20px;
+  font-weight:700;
+
+  white-space:nowrap;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.16);
+}
+
+.product-detail-disabled{
+  opacity:.5 !important;
+  cursor:not-allowed !important;
+}
+
+.athr-detail-price-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:2px;
+  margin-bottom:20px;
+}
+
+.athr-detail-old-price{
+  color:#8a7c75;
+  font-size:16px;
+  text-decoration:line-through;
+  opacity:.65;
+}
+
+.athr-detail-sale-price{
+  color:#5E0D0D;
+  font-size:24px;
+  font-weight:800;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+  .product-detail{
+    grid-template-columns:1fr;
+    gap:25px;
+  }
+
+  .product-gallery-main{
+    border-radius:18px;
+  }
+
+  .product-gallery-thumb{
+    flex-basis:68px;
+    width:68px;
+    height:68px;
+    border-radius:10px;
+  }
+
+  .product-detail-unavailable{
+    font-size:17px;
+    padding:9px 24px;
+    border-radius:14px;
+  }
+
+  .athr-detail-old-price{
+    font-size:14px;
+  }
+
+  .athr-detail-sale-price{
+    font-size:22px;
+  }
+
+}
