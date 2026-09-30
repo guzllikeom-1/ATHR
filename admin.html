@@ -224,16 +224,114 @@
                 <input type="hidden" id="productId">
                 <input type="hidden" id="oldImageUrl">
 
-                <div class="image-upload">
-                    <div id="imagePreview" class="image-preview">
-                        <span>صورة المنتج</span>
-                    </div>
-                    <div class="upload-controls">
-                        <label class="upload-btn" for="productImage">📷 اختيار صورة</label>
-                        <input id="productImage" type="file" accept="image/*">
-                        <small>JPG / PNG / WEBP — يفضّل صورة واضحة للمنتج.</small>
-                    </div>
-                </div>
+               <!-- MAIN PRODUCT IMAGE -->
+<div class="image-upload">
+
+    <div id="imagePreview" class="image-preview">
+        <span>صورة المنتج الرئيسية</span>
+    </div>
+
+    <div class="upload-controls">
+
+        <label class="upload-btn" for="productImage">
+            📷 اختيار الصورة الرئيسية
+        </label>
+
+        <input
+            id="productImage"
+            type="file"
+            accept="image/*"
+        >
+
+        <small>
+            هذه الصورة الرئيسية التي ستظهر في بطاقة المنتج.
+        </small>
+
+    </div>
+
+</div>
+
+<!-- EXTRA PRODUCT MEDIA -->
+<div class="product-media-upload">
+
+    <div class="media-upload-heading">
+        <span class="eyebrow">PRODUCT MEDIA</span>
+
+        <h3>صور وفيديو المنتج</h3>
+
+        <p>
+            يمكنك إضافة أكثر من صورة وفيديو لعرض تفاصيل المنتج.
+        </p>
+    </div>
+
+    <!-- EXTRA IMAGES -->
+    <div class="media-upload-box">
+
+        <div class="media-upload-icon">
+            🖼️
+        </div>
+
+        <div class="media-upload-content">
+
+            <label
+                class="upload-btn"
+                for="productExtraImages"
+            >
+                📷 اختيار صور إضافية
+            </label>
+
+            <input
+                id="productExtraImages"
+                type="file"
+                accept="image/*"
+                multiple
+            >
+
+            <small>
+                يمكنك اختيار أكثر من صورة في نفس الوقت.
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- VIDEO -->
+    <div class="media-upload-box">
+
+        <div class="media-upload-icon">
+            🎥
+        </div>
+
+        <div class="media-upload-content">
+
+            <label
+                class="upload-btn"
+                for="productVideo"
+            >
+                🎥 اختيار فيديو المنتج
+            </label>
+
+            <input
+                id="productVideo"
+                type="file"
+                accept="video/*"
+            >
+
+            <small>
+                يمكنك إضافة فيديو واحد للمنتج.
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- PREVIEW AREA -->
+    <div
+        id="productMediaPreview"
+        class="product-media-preview"
+    ></div>
+
+</div>
 
                <div class="form-two-cols">
 
