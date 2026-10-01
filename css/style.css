@@ -4516,3 +4516,215 @@ button{font-family:inherit}
     }
 
 }
+/* =====================================================
+   ATHR ADMIN — حجم الصور والفيديو المحفوظة
+===================================================== */
+
+.existing-product-media {
+    width: 100%;
+    margin-top: 24px;
+    box-sizing: border-box;
+}
+
+.existing-media-heading {
+    margin-bottom: 18px;
+    text-align: right;
+}
+
+.existing-media-heading h3 {
+    margin: 6px 0;
+    font-size: 22px;
+    color: #5e0d0d;
+}
+
+.existing-media-heading p {
+    margin: 0;
+    font-size: 14px;
+    color: #777;
+}
+
+/* شبكة الوسائط */
+.existing-media-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+/* بطاقة الوسائط */
+.existing-media-item {
+    width: 100%;
+    min-width: 0;
+    background: #fff;
+    border: 1px solid #eadede;
+    border-radius: 14px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* مساحة المعاينة */
+.existing-media-preview {
+    width: 100%;
+    height: 150px;
+    background: #f5f2ef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* الصور */
+.existing-media-preview img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* الفيديو */
+.existing-media-preview video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    background: #111;
+}
+
+/* معلومات الوسائط */
+.existing-media-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.existing-media-info > span {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* زر الحذف */
+.media-delete-btn {
+    border: 0;
+    background: #f7e8e8;
+    color: #8b1717;
+    padding: 7px 12px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.media-delete-btn:hover {
+    background: #8b1717;
+    color: #fff;
+}
+
+/* حالة التحميل */
+.existing-media-loading,
+.existing-media-empty {
+    padding: 18px;
+    text-align: center;
+    background: #faf8f6;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+    color: #777;
+    font-size: 14px;
+}
+
+.existing-media-empty.error {
+    color: #8b1717;
+}
+
+
+/* =====================================================
+   LAPTOP / TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .existing-media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .existing-media-preview {
+        height: 140px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .existing-product-media {
+        margin-top: 20px;
+    }
+
+    .existing-media-heading h3 {
+        font-size: 19px;
+    }
+
+    .existing-media-heading p {
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .existing-media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .existing-media-preview {
+        height: 105px;
+    }
+
+    .existing-media-info {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 7px;
+        padding: 8px;
+    }
+
+    .existing-media-info > span {
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .media-delete-btn {
+        width: 100%;
+        padding: 7px 8px;
+        font-size: 12px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+    .existing-media-preview {
+        height: 90px;
+    }
+
+    .existing-media-grid {
+        gap: 8px;
+    }
+
+}
