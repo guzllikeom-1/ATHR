@@ -4367,25 +4367,36 @@ button{font-family:inherit}
 
 .product-detail-unavailable{
   position:absolute;
-  top:50%;
+
+  /* ينزل المستطيل قليلًا عن منتصف الصورة */
+  top:62%;
   left:50%;
+
   transform:translate(-50%,-50%);
+
   z-index:5;
 
-  background:#fff;
-  color:#111;
+  /* مستطيل شفاف */
+  background:rgba(0,0,0,.32);
 
-  padding:11px 30px;
+  /* الكلمة أبيض */
+  color:#fff;
 
-  border-radius:16px;
+  padding:9px 28px;
 
-  font-size:20px;
+  border-radius:12px;
+
+  font-size:19px;
   font-weight:700;
 
   white-space:nowrap;
 
+  /* لمسة خفيفة وناعمة */
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+
   box-shadow:
-    0 8px 25px rgba(0,0,0,.16);
+    0 5px 18px rgba(0,0,0,.12);
 }
 
 .product-detail-disabled{
@@ -4437,11 +4448,12 @@ button{font-family:inherit}
     border-radius:10px;
   }
 
-  .product-detail-unavailable{
-    font-size:17px;
-    padding:9px 24px;
-    border-radius:14px;
-  }
+ .product-detail-unavailable{
+  top:62%;
+  font-size:17px;
+  padding:8px 22px;
+  border-radius:11px;
+}
 
   .athr-detail-old-price{
     font-size:14px;
