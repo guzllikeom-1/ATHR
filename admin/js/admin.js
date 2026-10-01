@@ -1063,23 +1063,58 @@ async function loadExistingProductMedia(productId) {
                             data-media-id="${escapeHtml(media.id)}"
                         >
 
-                            <div class="existing-media-preview">
+                          <div
+    class="existing-media-preview"
+    style="
+        width:100%;
+        height:150px;
+        min-height:150px;
+        max-height:150px;
+        overflow:hidden;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#f5f2ef;
+        box-sizing:border-box;
+    "
+>
 
                                 ${
                                     isVideo
                                         ? `
-                                            <video
-                                                src="${escapeHtml(media.media_url)}"
-                                                controls
-                                                muted
-                                                playsinline
-                                            ></video>
+                                           <video
+    src="${escapeHtml(media.media_url)}"
+    controls
+    muted
+    playsinline
+    style="
+        display:block;
+        width:100%;
+        height:150px;
+        max-width:100%;
+        max-height:150px;
+        object-fit:cover;
+        margin:0;
+        padding:0;
+        background:#111;
+    "
+></video>
                                           `
                                         : `
-                                            <img
-                                                src="${escapeHtml(media.media_url)}"
-                                                alt="وسائط المنتج"
-                                            >
+                                          <img
+    src="${escapeHtml(media.media_url)}"
+    alt="وسائط المنتج"
+    style="
+        display:block;
+        width:100%;
+        height:150px;
+        max-width:100%;
+        max-height:150px;
+        object-fit:cover;
+        margin:0;
+        padding:0;
+    "
+>
                                           `
                                 }
 
