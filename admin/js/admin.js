@@ -963,6 +963,9 @@ $("isAvailable").checked = product.is_available !== false;
     imagePreview.innerHTML = product.image_url
         ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}">`
         : "<span>صورة المنتج</span>";
+
+   loadExistingProductMedia(product.id);
+   
     $("modalTitle").textContent = "تعديل المنتج";
     saveProductBtn.textContent = "حفظ التعديلات";
     formMessage.textContent = "";
@@ -1001,6 +1004,221 @@ productImage.addEventListener("change", () => {
     const url = URL.createObjectURL(file);
     imagePreview.innerHTML = `<img src="${url}" alt="معاينة الصورة">`;
 });
+
+// =====================================================
+// الوسائط المحفوظة للمنتج
+// =====================================================
+
+async function loadExistingProductMedia(productId) {
+
+    const box = document.getElementById("existingProductMedia");
+
+    if (!box) return;
+
+    box.innerHTML = `
+        <div class="existing-media-loading">
+            جاري تحميل الوسائط...
+        </div>
+    `;
+
+    try {
+
+        const { data, error } = await athrSupabase
+            .from("product_media")
+            .select("id, media_type, media_url, sort_order")
+            .eq("product_id", productId)
+            .order("sort_order", { ascending: true });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data || !data.length) {
+
+            box.innerHTML = `
+                <div class="existing-media-empty">
+                    لا توجد صور أو فيديوهات إضافية لهذا المنتج.
+                </div>
+            `;
+
+            return;
+        }
+
+        box.innerHTML = `
+            <div class="existing-media-heading">
+                <span class="eyebrow">CURRENT MEDIA</span>
+                <h3>الوسائط الحالية</h3>
+                <p>يمكنك حذف أي صورة أو فيديو محفوظ مسبقًا.</p>
+            </div>
+
+            <div class="existing-media-grid">
+                ${data.map(media => {
+
+                    const isVideo =
+                        media.media_type === "video";
+
+                    return `
+                        <div
+                            class="existing-media-item"
+                            data-media-id="${escapeHtml(media.id)}"
+                        >
+
+                            <div class="existing-media-preview">
+
+                                ${
+                                    isVideo
+                                        ? `
+                                            <video
+                                                src="${escapeHtml(media.media_url)}"
+                                                controls
+                                                muted
+                                                playsinline
+                                            ></video>
+                                          `
+                                        : `
+                                            <img
+                                                src="${escapeHtml(media.media_url)}"
+                                                alt="وسائط المنتج"
+                                            >
+                                          `
+                                }
+
+                            </div>
+
+                            <div class="existing-media-info">
+
+                                <span>
+                                    ${
+                                        isVideo
+                                            ? "🎥 فيديو المنتج"
+                                            : "🖼️ صورة إضافية"
+                                    }
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="media-delete-btn"
+                                    data-delete-media="${escapeHtml(media.id)}"
+                                >
+                                    🗑️ حذف
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }).join("")}
+            </div>
+        `;
+
+        box
+            .querySelectorAll("[data-delete-media]")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    deleteProductMedia(
+                        button.dataset.deleteMedia,
+                        productId
+                    );
+
+                });
+
+            });
+
+    } catch (error) {
+
+        console.error(
+            "Load product media error:",
+            error
+        );
+
+        box.innerHTML = `
+            <div class="existing-media-empty error">
+                تعذر تحميل وسائط المنتج.
+            </div>
+        `;
+    }
+}
+
+
+// =====================================================
+// حذف صورة أو فيديو من المنتج
+// =====================================================
+
+async function deleteProductMedia(
+    mediaId,
+    productId
+) {
+
+    const confirmed = window.confirm(
+        "هل أنت متأكد من حذف هذه الوسائط؟\n\nسيتم حذفها من المنتج نهائيًا."
+    );
+
+    if (!confirmed) return;
+
+    try {
+
+        const { data: media, error: fetchError } =
+            await athrSupabase
+                .from("product_media")
+                .select("id, media_url")
+                .eq("id", mediaId)
+                .maybeSingle();
+
+        if (fetchError) {
+            throw fetchError;
+        }
+
+        if (!media) {
+            showToast(
+                "الوسائط غير موجودة.",
+                true
+            );
+            return;
+        }
+
+        const { error: deleteError } =
+            await athrSupabase
+                .from("product_media")
+                .delete()
+                .eq("id", mediaId);
+
+        if (deleteError) {
+            throw deleteError;
+        }
+
+        if (media.media_url) {
+
+            await deleteStorageImage(
+                media.media_url
+            );
+
+        }
+
+        showToast(
+            "تم حذف الوسائط بنجاح ✅"
+        );
+
+        await loadExistingProductMedia(
+            productId
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete product media error:",
+            error
+        );
+
+        showToast(
+            getFriendlyError(error),
+            true
+        );
+
+    }
+}
 
 // =====================================================
 // معاينة الصور الإضافية والفيديو
