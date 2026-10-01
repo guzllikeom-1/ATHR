@@ -4517,148 +4517,272 @@ button{font-family:inherit}
 
 }
 /* =====================================================
-   ATHR ADMIN — حجم الصور والفيديو المحفوظة
+   ATHR ADMIN — CURRENT PRODUCT MEDIA
+   Responsive + No Overflow
 ===================================================== */
 
 .existing-product-media {
-    width: 100%;
-    margin-top: 24px;
-    box-sizing: border-box;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-top: 24px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 .existing-media-heading {
-    margin-bottom: 18px;
-    text-align: right;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 18px !important;
+    text-align: right !important;
+    box-sizing: border-box !important;
 }
 
 .existing-media-heading h3 {
-    margin: 6px 0;
-    font-size: 22px;
-    color: #5e0d0d;
+    margin: 6px 0 !important;
+    font-size: 22px !important;
+    color: #5e0d0d !important;
 }
 
 .existing-media-heading p {
-    margin: 0;
-    font-size: 14px;
-    color: #777;
-}
-
-/* شبكة الوسائط */
-.existing-media-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    width: 100%;
-}
-
-/* بطاقة الوسائط */
-.existing-media-item {
-    width: 100%;
-    min-width: 0;
-    background: #fff;
-    border: 1px solid #eadede;
-    border-radius: 14px;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-/* مساحة المعاينة */
-.existing-media-preview {
-    width: 100%;
-    height: 150px;
-    background: #f5f2ef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-/* الصور */
-.existing-media-preview img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-/* الفيديو */
-.existing-media-preview video {
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    background: #111;
-}
-
-/* معلومات الوسائط */
-.existing-media-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 10px 12px;
-    direction: rtl;
-    box-sizing: border-box;
-}
-
-.existing-media-info > span {
-    font-size: 13px;
-    font-weight: 700;
-    color: #333;
-}
-
-/* زر الحذف */
-.media-delete-btn {
-    border: 0;
-    background: #f7e8e8;
-    color: #8b1717;
-    padding: 7px 12px;
-    border-radius: 9px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: 0.2s ease;
-}
-
-.media-delete-btn:hover {
-    background: #8b1717;
-    color: #fff;
-}
-
-/* حالة التحميل */
-.existing-media-loading,
-.existing-media-empty {
-    padding: 18px;
-    text-align: center;
-    background: #faf8f6;
-    border: 1px dashed #ddd;
-    border-radius: 12px;
-    color: #777;
-    font-size: 14px;
-}
-
-.existing-media-empty.error {
-    color: #8b1717;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    color: #777 !important;
 }
 
 
 /* =====================================================
-   LAPTOP / TABLET
+   GRID
+===================================================== */
+
+.existing-media-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================================
+   MEDIA CARD
+===================================================== */
+
+.existing-media-item {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+
+    background: #fff !important;
+
+    border: 1px solid #eadede !important;
+    border-radius: 14px !important;
+
+    overflow: hidden !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+.existing-media-preview {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    height: 150px !important;
+    min-height: 150px !important;
+    max-height: 150px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    background: #f5f2ef !important;
+
+    overflow: hidden !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.existing-media-preview img {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    height: 150px !important;
+    min-height: 0 !important;
+    max-height: 150px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    object-fit: cover !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+.existing-media-preview video {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    height: 150px !important;
+    min-height: 0 !important;
+    max-height: 150px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    object-fit: cover !important;
+
+    background: #111 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.existing-media-info {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    gap: 8px !important;
+
+    padding: 10px !important;
+
+    direction: rtl !important;
+
+    box-sizing: border-box !important;
+}
+
+.existing-media-info > span {
+    display: block !important;
+
+    min-width: 0 !important;
+
+    font-size: 13px !important;
+    font-weight: 700 !important;
+
+    color: #333 !important;
+
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+
+/* =====================================================
+   DELETE BUTTON
+===================================================== */
+
+.media-delete-btn {
+    flex: 0 0 auto !important;
+
+    border: 0 !important;
+
+    background: #f7e8e8 !important;
+    color: #8b1717 !important;
+
+    padding: 7px 12px !important;
+
+    border-radius: 9px !important;
+
+    font-size: 13px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+
+    white-space: nowrap !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =====================================================
+   EMPTY / LOADING
+===================================================== */
+
+.existing-media-loading,
+.existing-media-empty {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 18px !important;
+
+    text-align: center !important;
+
+    background: #faf8f6 !important;
+
+    border: 1px dashed #ddd !important;
+    border-radius: 12px !important;
+
+    color: #777 !important;
+
+    font-size: 14px !important;
+
+    box-sizing: border-box !important;
+}
+
+.existing-media-empty.error {
+    color: #8b1717 !important;
+}
+
+
+/* =====================================================
+   TABLET
 ===================================================== */
 
 @media (max-width: 900px) {
 
     .existing-media-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
     .existing-media-preview {
-        height: 140px;
+        height: 130px !important;
+        min-height: 130px !important;
+        max-height: 130px !important;
+    }
+
+    .existing-media-preview img,
+    .existing-media-preview video {
+        height: 130px !important;
+        max-height: 130px !important;
     }
 
 }
@@ -4671,60 +4795,105 @@ button{font-family:inherit}
 @media (max-width: 600px) {
 
     .existing-product-media {
-        margin-top: 20px;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .existing-media-heading {
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .existing-media-heading h3 {
-        font-size: 19px;
+        font-size: 19px !important;
     }
 
     .existing-media-heading p {
-        font-size: 13px;
-        line-height: 1.7;
+        font-size: 13px !important;
+        line-height: 1.7 !important;
     }
 
     .existing-media-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        gap: 10px !important;
+    }
+
+    .existing-media-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
     }
 
     .existing-media-preview {
-        height: 105px;
+        width: 100% !important;
+
+        height: 105px !important;
+        min-height: 105px !important;
+        max-height: 105px !important;
+    }
+
+    .existing-media-preview img,
+    .existing-media-preview video {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        height: 105px !important;
+        max-height: 105px !important;
     }
 
     .existing-media-info {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 7px;
-        padding: 8px;
+        flex-direction: column !important;
+        align-items: stretch !important;
+
+        padding: 8px !important;
+
+        gap: 7px !important;
     }
 
     .existing-media-info > span {
-        font-size: 11px;
-        text-align: center;
+        width: 100% !important;
+
+        text-align: center !important;
+
+        font-size: 11px !important;
     }
 
     .media-delete-btn {
-        width: 100%;
-        padding: 7px 8px;
-        font-size: 12px;
+        width: 100% !important;
+
+        padding: 7px 8px !important;
+
+        font-size: 12px !important;
     }
 
 }
 
 
 /* =====================================================
-   SMALL MOBILE
+   VERY SMALL MOBILE
 ===================================================== */
 
 @media (max-width: 400px) {
 
     .existing-media-preview {
-        height: 90px;
+        height: 90px !important;
+        min-height: 90px !important;
+        max-height: 90px !important;
+    }
+
+    .existing-media-preview img,
+    .existing-media-preview video {
+        height: 90px !important;
+        max-height: 90px !important;
     }
 
     .existing-media-grid {
-        gap: 8px;
+        gap: 8px !important;
     }
 
 }
