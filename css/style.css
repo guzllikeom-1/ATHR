@@ -4464,3 +4464,55 @@ button{font-family:inherit}
   }
 
 }
+/* =====================================================
+   ATHR — غير متوفر داخل بطاقة المنتج
+===================================================== */
+
+.athr-product-unavailable{
+    position:absolute !important;
+
+    /* ننزله تحت منتصف الصورة */
+    top:66% !important;
+    left:50% !important;
+
+    transform:translate(-50%,-50%) !important;
+
+    z-index:10 !important;
+
+    /* شفاف بدل الأبيض */
+    background:rgba(0,0,0,0.32) !important;
+
+    /* النص أبيض */
+    color:#fff !important;
+
+    padding:8px 28px !important;
+
+    border-radius:12px !important;
+
+    font-size:19px !important;
+    font-weight:700 !important;
+
+    white-space:nowrap !important;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.12) !important;
+
+    backdrop-filter:blur(3px) !important;
+    -webkit-backdrop-filter:blur(3px) !important;
+}
+
+
+/* الجوال */
+@media (max-width:700px){
+
+    .athr-product-unavailable{
+        top:66% !important;
+
+        padding:7px 22px !important;
+
+        border-radius:11px !important;
+
+        font-size:17px !important;
+    }
+
+}
